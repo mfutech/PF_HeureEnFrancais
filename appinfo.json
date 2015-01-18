@@ -11,6 +11,12 @@
             {
                 "characterRegex": "[-0-9a-z ]",
                 "file": "fonts/coolvetica rg.ttf",
+                "name": "FONT_COOLVETICA_24",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/coolvetica rg.ttf",
                 "name": "FONT_COOLVETICA_28",
                 "type": "font"
             },
