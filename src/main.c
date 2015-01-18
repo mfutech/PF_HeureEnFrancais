@@ -102,26 +102,26 @@ static void main_window_load(Window *window) {
   s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_28));
   
   // Create lines TextLayer
-  int y = 0;
-  s_line1_layer = text_layer_create(GRect(0, y, 144, 53));
-  y += 53+2;
+  int y = 2;
+  s_line1_layer = text_layer_create(GRect(2, y, 140, 53));
+  y += 53;
   text_layer_set_background_color(s_line1_layer, GColorClear);
   text_layer_set_text_color(s_line1_layer, GColorBlack);
   text_layer_set_text(s_line1_layer, "01:00");
 
-  s_line2_layer = text_layer_create(GRect(0, y, 144, 37));
-  y += 37+2;
+  s_line2_layer = text_layer_create(GRect(2, y, 140, 37));
+  y += 37;
   text_layer_set_background_color(s_line2_layer, GColorClear);
   text_layer_set_text_color(s_line2_layer, GColorBlack);
   text_layer_set_text(s_line2_layer, "02:00");
 
-  s_line3_layer = text_layer_create(GRect(0, y, 144, 37));
-  y += 37+2;
+  s_line3_layer = text_layer_create(GRect(2, y, 140, 37));
+  y += 37;
   text_layer_set_background_color(s_line3_layer, GColorClear);
   text_layer_set_text_color(s_line3_layer, GColorBlack);
   text_layer_set_text(s_line3_layer, "03:00");
 
-  s_line4_layer = text_layer_create(GRect(0, y, 144, 37));
+  s_line4_layer = text_layer_create(GRect(2, y, 140, 37));
   text_layer_set_background_color(s_line4_layer, GColorClear);
   text_layer_set_text_color(s_line4_layer, GColorBlack);
   text_layer_set_text(s_line4_layer, "04:00");
