@@ -1,0 +1,38 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "mfu tech",
+    "longName": "L'Heure en Fran\u00e7ais",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/Roboto-BoldCondensed.ttf",
+                "name": "FONT_ROBOT_COND_BOLD_32",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/Roboto-Condensed.ttf",
+                "name": "FONT_ROBOTO_CONDENSED_24",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/Roboto-Condensed.ttf",
+                "name": "FONT_ROBOTO_CONDENSED_48",
+                "type": "font"
+            }
+        ]
+    },
+    "shortName": "Heure en Fran\u00e7ais",
+    "uuid": "6f5e450b-c15f-4a06-8326-6ca83e2fbd11",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
