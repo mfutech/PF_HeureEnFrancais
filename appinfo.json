@@ -9,6 +9,36 @@
     "resources": {
         "media": [
             {
+                "characterRegex": "[-0-9a-z]",
+                "file": "fonts/coolvetica rg.ttf",
+                "name": "FONT_COOLVETICA_48",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z]",
+                "file": "fonts/coolvetica rg.ttf",
+                "name": "FONT_COOLVETICA_34",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/Harabara Mais Demo.ttf",
+                "name": "FONT_HARABARA_24",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/Harabara Mais Demo.ttf",
+                "name": "FONT_HARABARA_34",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/Harabara Mais Demo.ttf",
+                "name": "FONT_HARABARA_48",
+                "type": "font"
+            },
+            {
                 "characterRegex": "[-0-9a-z ]",
                 "file": "fonts/Roboto-BoldCondensed.ttf",
                 "name": "FONT_ROBOT_COND_BOLD_32",
