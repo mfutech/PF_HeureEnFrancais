@@ -9,15 +9,21 @@
     "resources": {
         "media": [
             {
-                "characterRegex": "[-0-9a-z]",
+                "characterRegex": "[-0-9a-z ]",
                 "file": "fonts/coolvetica rg.ttf",
-                "name": "FONT_COOLVETICA_48",
+                "name": "FONT_COOLVETICA_28",
                 "type": "font"
             },
             {
-                "characterRegex": "[-0-9a-z]",
+                "characterRegex": "[-0-9a-z ]",
                 "file": "fonts/coolvetica rg.ttf",
                 "name": "FONT_COOLVETICA_34",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/coolvetica rg.ttf",
+                "name": "FONT_COOLVETICA_48",
                 "type": "font"
             },
             {

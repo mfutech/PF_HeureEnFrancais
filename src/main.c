@@ -11,57 +11,75 @@ static GFont s_line1_font;
 static GFont s_line2_font;
 static GFont s_line3_font;
 static GFont s_line4_font;
+static GFont s_big_font;
+static GFont s_medium_font;
+static GFont s_small_font;
 
+void my_text_layer_set_text(TextLayer *t_layer, char *str) {
+  if (strlen(str) > 8)
+    text_layer_set_font(t_layer, s_small_font);
+  else
+    text_layer_set_font(t_layer, s_medium_font);
+  text_layer_set_text(t_layer, str);
+}
 
 static void update_time() {
   // Get a tm structure
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
 
-  int  hour_idx;
+  int hour_ref = tick_time->tm_hour % 12;
+  int min_ref  = tick_time->tm_min;
+  bool need_minus = false;
   
-  hour_idx = tick_time->tm_hour % 12 + FRENCH_DIGIT_0;
-
-  if (tick_time->tm_hour == 0) {
+  if (min_ref > 30) {
+    min_ref = 60 - min_ref;
+    hour_ref += 1;
+    need_minus = true;
+  }
+  
+  if (hour_ref == 0) {
     text_layer_set_text(s_line1_layer, "minuit");
     text_layer_set_text(s_line2_layer, " ");
   }
-  else if (tick_time->tm_hour == 12) {
+  else if (hour_ref == 12) {
     text_layer_set_text(s_line1_layer, "midi");
     text_layer_set_text(s_line2_layer, " ");
   }
   else {
-    text_layer_set_text(s_line1_layer, french_number[hour_idx]);
-    if (tick_time->tm_hour == 1)
+    text_layer_set_text(s_line1_layer, french_number[hour_ref + FRENCH_DIGIT_0]);
+    if (hour_ref == 1)
       text_layer_set_text(s_line2_layer, "heure");
     else
       text_layer_set_text(s_line2_layer, "heures");
   }
-  switch(tick_time->tm_min) {
+  switch(min_ref) {
     case 0:
-      text_layer_set_text(s_line3_layer, "pile");
-      text_layer_set_text(s_line4_layer, " ");
+      my_text_layer_set_text(s_line3_layer, "pile");
+      my_text_layer_set_text(s_line4_layer, " ");
       break;
     case 15:
-      text_layer_set_text(s_line3_layer, "et");
-      text_layer_set_text(s_line4_layer, "quart");
+      if (need_minus) {
+        my_text_layer_set_text(s_line3_layer, "moins");
+        my_text_layer_set_text(s_line4_layer, "quart");
+      }
+      else {
+        my_text_layer_set_text(s_line3_layer, "et");
+        my_text_layer_set_text(s_line4_layer, "quart");
+      }
       break;
     case 30:
       text_layer_set_text(s_line3_layer, "et");
       text_layer_set_text(s_line4_layer, "demie");
       break;
-    case 45:
-      text_layer_set_text(s_line3_layer, "moins");
-      text_layer_set_text(s_line4_layer, "quart");
-      break;
     default: 
-      if (tick_time->tm_min < 30) {
-        text_layer_set_text(s_line3_layer, french_number[tick_time->tm_min]);
-        text_layer_set_text(s_line4_layer, " ");
+      if (need_minus) {
+        my_text_layer_set_text(s_line3_layer, "moins");
+        my_text_layer_set_text(s_line4_layer, french_number[min_ref + FRENCH_DIGIT_0]);
       }
       else { // (tick_time->tm_min > 30) 
-        text_layer_set_text(s_line3_layer, "moins");
-        text_layer_set_text(s_line4_layer, french_number[60 - tick_time->tm_min]);
+        my_text_layer_set_text(s_line3_layer, french_number[min_ref + FRENCH_DIGIT_0]);
+        my_text_layer_set_text(s_line4_layer, " ");
       }  
   }
 }
@@ -79,6 +97,9 @@ static void main_window_load(Window *window) {
   s_line2_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_34));
   s_line3_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_34));
   s_line4_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_34));
+  s_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_48));
+  s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_34));
+  s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_28));
   
   // Create lines TextLayer
   int y = 0;
@@ -106,10 +127,10 @@ static void main_window_load(Window *window) {
   text_layer_set_text(s_line4_layer, "04:00");
 
   //Apply to TextLayer
-  text_layer_set_font(s_line1_layer, s_line1_font);
-  text_layer_set_font(s_line2_layer, s_line2_font);
-  text_layer_set_font(s_line3_layer, s_line3_font);
-  text_layer_set_font(s_line4_layer, s_line4_font);
+  text_layer_set_font(s_line1_layer, s_big_font);
+  text_layer_set_font(s_line2_layer, s_medium_font);
+  text_layer_set_font(s_line3_layer, s_medium_font);
+  text_layer_set_font(s_line4_layer, s_medium_font);
   
   text_layer_set_text_alignment(s_line1_layer, GTextAlignmentLeft);
   text_layer_set_text_alignment(s_line2_layer, GTextAlignmentRight);
