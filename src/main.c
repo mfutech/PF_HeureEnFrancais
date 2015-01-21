@@ -1,8 +1,9 @@
 #include <pebble.h>
 #include <french_number.h>
   
-#define COOLVETICAFONT 1
+#define COOLVETICAFONT 0
 #define KENYANCOFFEEFONT 0
+#define CONFORTAAFONT 1
   
 static Window *s_main_window;
 static TextLayer *s_line1_layer;
@@ -24,6 +25,18 @@ static char s_line4[LINE_LEN];
 static bool date_mode = 0;
 
 void my_text_layer_set_text(TextLayer *t_layer, char *str) {
+  GSize sz;
+  text_layer_set_font(t_layer, s_medium_font);
+  text_layer_set_text(t_layer, str);
+  sz = text_layer_get_content_size(t_layer);
+  if (sz.w < 144) return;
+  text_layer_set_font(t_layer, s_small_font);
+  sz = text_layer_get_content_size(t_layer);
+  if (sz.w < 144) return;
+  text_layer_set_font(t_layer, s_tiny_font);
+}
+void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
+  //text_layer_get_content_size
   if (strlen(str) > 8)
     text_layer_set_font(t_layer, s_small_font);
   else if (strlen(str) > 9)
@@ -32,6 +45,7 @@ void my_text_layer_set_text(TextLayer *t_layer, char *str) {
     text_layer_set_font(t_layer, s_medium_font);
   text_layer_set_text(t_layer, str);
 }
+
 
 static void show_date() {
   // Get a tm structure
@@ -134,27 +148,34 @@ static void main_window_load(Window *window) {
   s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_KENYAN_COFFEE_28));
   s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_KENYAN_COFFEE_24));
 #endif
+#if CONFORTAAFONT
+  s_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_48));
+  s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_34));
+  s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_28));
+  s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_24));
+#endif
   // Create lines TextLayer
-  int y = 2;
-  s_line1_layer = text_layer_create(GRect(2, y, 140, 53));
-  y += 53;
+  int y = 0;
+  s_line1_layer = text_layer_create(GRect(1, y, 143, 53)); y += 53; /*53*/
+  text_layer_set_text_alignment(s_line1_layer, GTextAlignmentLeft);
   text_layer_set_background_color(s_line1_layer, GColorClear);
   text_layer_set_text_color(s_line1_layer, GColorBlack);
   text_layer_set_text(s_line1_layer, "01:00");
 
-  s_line2_layer = text_layer_create(GRect(2, y, 140, 37));
-  y += 37;
+  s_line2_layer = text_layer_create(GRect(0, y, 143, 37)); y += 37; /*90*/
+  text_layer_set_text_alignment(s_line2_layer, GTextAlignmentRight);
   text_layer_set_background_color(s_line2_layer, GColorClear);
   text_layer_set_text_color(s_line2_layer, GColorBlack);
   text_layer_set_text(s_line2_layer, "02:00");
 
-  s_line3_layer = text_layer_create(GRect(2, y, 140, 37));
-  y += 37;
+  s_line3_layer = text_layer_create(GRect(2, y, 143, 37)); y += 37; /*127*/
+  text_layer_set_text_alignment(s_line3_layer, GTextAlignmentLeft);
   text_layer_set_background_color(s_line3_layer, GColorClear);
   text_layer_set_text_color(s_line3_layer, GColorBlack);
   text_layer_set_text(s_line3_layer, "03:00");
 
-  s_line4_layer = text_layer_create(GRect(2, y, 140, 37));
+  s_line4_layer = text_layer_create(GRect(0, y, 143, 37)); /*164*/
+  text_layer_set_text_alignment(s_line4_layer, GTextAlignmentRight);
   text_layer_set_background_color(s_line4_layer, GColorClear);
   text_layer_set_text_color(s_line4_layer, GColorBlack);
   text_layer_set_text(s_line4_layer, "04:00");
@@ -164,12 +185,7 @@ static void main_window_load(Window *window) {
   text_layer_set_font(s_line2_layer, s_medium_font);
   text_layer_set_font(s_line3_layer, s_medium_font);
   text_layer_set_font(s_line4_layer, s_medium_font);
-  
-  text_layer_set_text_alignment(s_line1_layer, GTextAlignmentLeft);
-  text_layer_set_text_alignment(s_line2_layer, GTextAlignmentRight);
-  text_layer_set_text_alignment(s_line3_layer, GTextAlignmentLeft);
-  text_layer_set_text_alignment(s_line4_layer, GTextAlignmentRight);
-                                
+                                  
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_line1_layer));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_line2_layer));
