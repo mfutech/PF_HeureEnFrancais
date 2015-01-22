@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include <ctype.h>
 #include <french_number.h>
   
 #define COOLVETICAFONT 0
@@ -24,16 +25,29 @@ static char s_line4[LINE_LEN];
 
 static bool date_mode = 0;
 
+void str_lower(char *str){
+  int i = 0;
+  while(str[i]){
+    str[i] = tolower((int)str[i]);
+    i++;
+  }
+}
+
 void my_text_layer_set_text(TextLayer *t_layer, char *str) {
   GSize sz;
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "text: %s", str);
   text_layer_set_font(t_layer, s_medium_font);
   text_layer_set_text(t_layer, str);
   sz = text_layer_get_content_size(t_layer);
-  if (sz.w < 144) return;
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "medium, sz: %d x %d", sz.h, sz.w);
+  if (sz.w < 120) return;
   text_layer_set_font(t_layer, s_small_font);
   sz = text_layer_get_content_size(t_layer);
-  if (sz.w < 144) return;
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "small, sz: %d x %d", sz.h, sz.w);
+  if (sz.w < 120) return;
   text_layer_set_font(t_layer, s_tiny_font);
+  sz = text_layer_get_content_size(t_layer);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
 }
 void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
   //text_layer_get_content_size
@@ -48,18 +62,32 @@ void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
 
 
 static void show_date() {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "set local : %s", setlocale(LC_ALL, "fr_FR"));
   // Get a tm structure
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
   text_layer_set_text(s_line1_layer, "date");
-  strftime(s_line2, LINE_LEN, "%d.%m.%Y", tick_time);
+  strftime(s_line2, LINE_LEN, "%A", tick_time);
+  str_lower(s_line2);
   my_text_layer_set_text(s_line2_layer, s_line2);
-  strftime(s_line3, LINE_LEN, "heure", tick_time);
+  strftime(s_line3, LINE_LEN, "%d %B", tick_time);
+  str_lower(s_line3);
   my_text_layer_set_text(s_line3_layer, s_line3);
   strftime(s_line4, LINE_LEN, "%H:%M", tick_time);
+  str_lower(s_line4);
   my_text_layer_set_text(s_line4_layer, s_line4);
 
 }
+
+static void display_debug() {
+  // Get a tm structure
+  my_text_layer_set_text(s_line1_layer, "date");
+  my_text_layer_set_text(s_line2_layer, "dix-huit");
+  my_text_layer_set_text(s_line3_layer, "vingt-neuf");
+  my_text_layer_set_text(s_line4_layer, "vingtxneuf");
+}
+
+
 
 static void update_time() {
   // Get a tm structure
@@ -88,9 +116,9 @@ static void update_time() {
     hour_ref = hour_ref % 12;
     text_layer_set_text(s_line1_layer, french_number[hour_ref + FRENCH_DIGIT_0]);
     if (hour_ref == 1)
-      text_layer_set_text(s_line2_layer, "heure");
+      my_text_layer_set_text(s_line2_layer, "heure");
     else
-      text_layer_set_text(s_line2_layer, "heures");
+      my_text_layer_set_text(s_line2_layer, "heures");
   }
   switch(min_ref) {
     case 0:
@@ -108,8 +136,8 @@ static void update_time() {
       }
       break;
     case 30:
-      text_layer_set_text(s_line3_layer, "et");
-      text_layer_set_text(s_line4_layer, "demie");
+      my_text_layer_set_text(s_line3_layer, "et");
+      my_text_layer_set_text(s_line4_layer, "demie");
       break;
     default: 
       if (need_minus) {
@@ -151,8 +179,8 @@ static void main_window_load(Window *window) {
 #if CONFORTAAFONT
   s_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_48));
   s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_34));
-  s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_28));
-  s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_24));
+  s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_24));
+  s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_20));
 #endif
   // Create lines TextLayer
   int y = 0;
@@ -209,6 +237,8 @@ static void main_window_unload(Window *window) {
 }
 
 static void init() {
+  setlocale(LC_ALL, "fr_FR");
+  
   // Create main Window element and assign to pointer
   s_main_window = window_create();
 

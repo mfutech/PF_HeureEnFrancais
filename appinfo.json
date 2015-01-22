@@ -11,6 +11,18 @@
             {
                 "characterRegex": "[-0-9a-z:.  ]",
                 "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_20",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:.  ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_18",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:.  ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
                 "name": "FONT_CONFORTAA_24",
                 "type": "font"
             },
