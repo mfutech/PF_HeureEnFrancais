@@ -41,6 +41,12 @@
             {
                 "characterRegex": "[-0-9a-z:.  ]",
                 "file": "fonts/Comfortaa-Bold.ttf",
+                "name": "FONT_CONFORTAA_BOLD_40",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:.  ]",
+                "file": "fonts/Comfortaa-Bold.ttf",
                 "name": "FONT_CONFORTAA_BOLD_48",
                 "type": "font"
             },

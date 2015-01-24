@@ -16,6 +16,8 @@ static GFont s_big_font;
 static GFont s_medium_font;
 static GFont s_small_font;
 static GFont s_tiny_font;
+static GFont s_bld_big_font;
+static GFont s_bld_medium_font;
 
 #define LINE_LEN 15
 static char s_line1[LINE_LEN];
@@ -33,21 +35,35 @@ void str_lower(char *str){
   }
 }
 
-void my_text_layer_set_text(TextLayer *t_layer, char *str) {
+void bld_text_layer_set_text(TextLayer *t_layer, char *str) {
   GSize sz;
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "text: %s", str);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, "bold text: %s", str);
+  text_layer_set_font(t_layer, s_bld_big_font);
+  text_layer_set_text(t_layer, str);
+  sz = text_layer_get_content_size(t_layer);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, "bold big, sz: %d x %d", sz.h, sz.w);
+  if (sz.w < 120) return;
+  text_layer_set_font(t_layer, s_medium_font);
+  sz = text_layer_get_content_size(t_layer);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, "bold medium, sz: %d x %d", sz.h, sz.w);
+}
+
+
+void reg_text_layer_set_text(TextLayer *t_layer, char *str) {
+  GSize sz;
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, "text: %s", str);
   text_layer_set_font(t_layer, s_medium_font);
   text_layer_set_text(t_layer, str);
   sz = text_layer_get_content_size(t_layer);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "medium, sz: %d x %d", sz.h, sz.w);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, "medium, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
   text_layer_set_font(t_layer, s_small_font);
   sz = text_layer_get_content_size(t_layer);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "small, sz: %d x %d", sz.h, sz.w);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, "small, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
   text_layer_set_font(t_layer, s_tiny_font);
   sz = text_layer_get_content_size(t_layer);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
 }
 void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
   //text_layer_get_content_size
@@ -62,29 +78,29 @@ void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
 
 
 static void show_date() {
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "set local : %s", setlocale(LC_ALL, "fr_FR"));
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, "set local : %s", setlocale(LC_ALL, "fr_FR"));
   // Get a tm structure
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
-  text_layer_set_text(s_line1_layer, "date");
+  bld_text_layer_set_text(s_line1_layer, "date");
   strftime(s_line2, LINE_LEN, "%A", tick_time);
   str_lower(s_line2);
-  my_text_layer_set_text(s_line2_layer, s_line2);
+  reg_text_layer_set_text(s_line2_layer, s_line2);
   strftime(s_line3, LINE_LEN, "%d %B", tick_time);
   str_lower(s_line3);
-  my_text_layer_set_text(s_line3_layer, s_line3);
+  reg_text_layer_set_text(s_line3_layer, s_line3);
   strftime(s_line4, LINE_LEN, "%H:%M", tick_time);
   str_lower(s_line4);
-  my_text_layer_set_text(s_line4_layer, s_line4);
+  reg_text_layer_set_text(s_line4_layer, s_line4);
 
 }
 
 static void display_debug() {
   // Get a tm structure
-  my_text_layer_set_text(s_line1_layer, "date");
-  my_text_layer_set_text(s_line2_layer, "dix-huit");
-  my_text_layer_set_text(s_line3_layer, "vingt-neuf");
-  my_text_layer_set_text(s_line4_layer, "vingtxneuf");
+  bld_text_layer_set_text(s_line1_layer, "quatre");
+  reg_text_layer_set_text(s_line2_layer, "dix-huit");
+  reg_text_layer_set_text(s_line3_layer, "vingt-neuf");
+  reg_text_layer_set_text(s_line4_layer, "vingtxneuf");
 }
 
 
@@ -105,48 +121,48 @@ static void update_time() {
   }
   
   if (hour_ref == 0 || hour_ref == 24) {
-    text_layer_set_text(s_line1_layer, "minuit");
-    text_layer_set_text(s_line2_layer, " ");
+    bld_text_layer_set_text(s_line1_layer, "minuit");
+    reg_text_layer_set_text(s_line2_layer, " ");
   }
   else if (hour_ref == 12) {
-    text_layer_set_text(s_line1_layer, "midi");
-    text_layer_set_text(s_line2_layer, " ");
+    bld_text_layer_set_text(s_line1_layer, "midi");
+    reg_text_layer_set_text(s_line2_layer, " ");
   }
   else {
     hour_ref = hour_ref % 12;
-    text_layer_set_text(s_line1_layer, french_number[hour_ref + FRENCH_DIGIT_0]);
+    bld_text_layer_set_text(s_line1_layer, french_number[hour_ref + FRENCH_DIGIT_0]);
     if (hour_ref == 1)
-      my_text_layer_set_text(s_line2_layer, "heure");
+      reg_text_layer_set_text(s_line2_layer, "heure");
     else
-      my_text_layer_set_text(s_line2_layer, "heures");
+      reg_text_layer_set_text(s_line2_layer, "heures");
   }
   switch(min_ref) {
     case 0:
-      my_text_layer_set_text(s_line3_layer, "pile");
-      my_text_layer_set_text(s_line4_layer, " ");
+      reg_text_layer_set_text(s_line3_layer, "pile");
+      reg_text_layer_set_text(s_line4_layer, " ");
       break;
     case 15:
       if (need_minus) {
-        my_text_layer_set_text(s_line3_layer, "moins");
-        my_text_layer_set_text(s_line4_layer, "quart");
+        reg_text_layer_set_text(s_line3_layer, "moins");
+        reg_text_layer_set_text(s_line4_layer, "quart");
       }
       else {
-        my_text_layer_set_text(s_line3_layer, "et");
-        my_text_layer_set_text(s_line4_layer, "quart");
+        reg_text_layer_set_text(s_line3_layer, "et");
+        reg_text_layer_set_text(s_line4_layer, "quart");
       }
       break;
     case 30:
-      my_text_layer_set_text(s_line3_layer, "et");
-      my_text_layer_set_text(s_line4_layer, "demie");
+      reg_text_layer_set_text(s_line3_layer, "et");
+      reg_text_layer_set_text(s_line4_layer, "demie");
       break;
     default: 
       if (need_minus) {
-        my_text_layer_set_text(s_line3_layer, "moins");
-        my_text_layer_set_text(s_line4_layer, french_number[min_ref + FRENCH_DIGIT_0]);
+        reg_text_layer_set_text(s_line3_layer, "moins");
+        reg_text_layer_set_text(s_line4_layer, french_number[min_ref + FRENCH_DIGIT_0]);
       }
       else { // (tick_time->tm_min > 30) 
-        my_text_layer_set_text(s_line3_layer, french_number[min_ref + FRENCH_DIGIT_0]);
-        my_text_layer_set_text(s_line4_layer, " ");
+        reg_text_layer_set_text(s_line3_layer, french_number[min_ref + FRENCH_DIGIT_0]);
+        reg_text_layer_set_text(s_line4_layer, " ");
       }  
   }
 }
@@ -158,7 +174,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 }
 static void tap_handler(AccelAxisType axis, int32_t direction) {
   date_mode = ! date_mode;
-  if (date_mode) show_date();
+  if (date_mode) show_date(); //display_debug();   
   else update_time();
 }
 // ------------------------------------------- UI SETUP ----------------------------------------------
@@ -177,6 +193,8 @@ static void main_window_load(Window *window) {
   s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_KENYAN_COFFEE_24));
 #endif
 #if CONFORTAAFONT
+  s_bld_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_48));
+  s_bld_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_40));
   s_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_48));
   s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_34));
   s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_24));
@@ -215,10 +233,10 @@ static void main_window_load(Window *window) {
   text_layer_set_font(s_line4_layer, s_medium_font);
                                   
   // Add it as a child layer to the Window's root layer
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_line1_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_line2_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_line3_layer));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_line4_layer));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_line3_layer));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_line2_layer));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_line1_layer));
 }
 
 
