@@ -5,7 +5,8 @@
 #define COOLVETICAFONT 0
 #define KENYANCOFFEEFONT 0
 #define CONFORTAAFONT 1
-  
+#define HARABARAFONT 0
+
 static Window *s_main_window;
 static TextLayer *s_line1_layer;
 static TextLayer *s_line2_layer;
@@ -199,6 +200,14 @@ static void main_window_load(Window *window) {
   s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_34));
   s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_24));
   s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_20));
+#endif
+#if HARABARAFONT
+  s_bld_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_48));
+  s_bld_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_34));
+  s_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_48));
+  s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_34));
+  s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_24));
+  s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_20));
 #endif
   // Create lines TextLayer
   int y = 0;

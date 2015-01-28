@@ -81,21 +81,27 @@
                 "type": "font"
             },
             {
-                "characterRegex": "[-0-9a-z ]",
+                "characterRegex": "[-0-9a-z:.  -]",
                 "file": "fonts/Harabara Mais Demo.ttf",
                 "name": "FONT_HARABARA_24",
                 "type": "font"
             },
             {
-                "characterRegex": "[-0-9a-z ]",
+                "characterRegex": "[-0-9a-z:.  ]",
                 "file": "fonts/Harabara Mais Demo.ttf",
                 "name": "FONT_HARABARA_34",
                 "type": "font"
             },
             {
-                "characterRegex": "[-0-9a-z ]",
+                "characterRegex": "[-0-9a-z:.  ]",
                 "file": "fonts/Harabara Mais Demo.ttf",
                 "name": "FONT_HARABARA_48",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:.  ]",
+                "file": "fonts/Harabara Mais Demo.ttf",
+                "name": "FONT_HARABARA_20",
                 "type": "font"
             },
             {

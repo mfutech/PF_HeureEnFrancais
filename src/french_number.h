@@ -22,7 +22,7 @@ static char* french_number[] = {
 /* 18 */	"dix-huit",
 /* 19 */	"dix-neuf",
 /* 20 */	"vingt",
-/* 21 */	"vingt et un",
+/* 21 */	"vingt et une",
 /* 22 */	"vingt-deux",
 /* 23 */	"vingt-trois",
 /* 24 */	"vingt-quatre",
