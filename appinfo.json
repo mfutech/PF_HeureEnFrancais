@@ -1,5 +1,7 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "MODE_NATURAL": 0
+    },
     "capabilities": [
         ""
     ],
@@ -9,45 +11,45 @@
     "resources": {
         "media": [
             {
-                "characterRegex": "[-0-9a-z:.  ]",
-                "file": "fonts/Comfortaa-Regular.ttf",
-                "name": "FONT_CONFORTAA_20",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:.  ]",
-                "file": "fonts/Comfortaa-Regular.ttf",
-                "name": "FONT_CONFORTAA_18",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:.  ]",
-                "file": "fonts/Comfortaa-Regular.ttf",
-                "name": "FONT_CONFORTAA_24",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:.  ]",
-                "file": "fonts/Comfortaa-Regular.ttf",
-                "name": "FONT_CONFORTAA_28",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z.:  ]",
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
                 "file": "fonts/Comfortaa-Regular.ttf",
                 "name": "FONT_CONFORTAA_34",
                 "type": "font"
             },
             {
-                "characterRegex": "[-0-9a-z:.  ]",
-                "file": "fonts/Comfortaa-Bold.ttf",
-                "name": "FONT_CONFORTAA_BOLD_40",
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_28",
                 "type": "font"
             },
             {
-                "characterRegex": "[-0-9a-z:.  ]",
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_24",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_18",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_20",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
                 "file": "fonts/Comfortaa-Bold.ttf",
                 "name": "FONT_CONFORTAA_BOLD_48",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Bold.ttf",
+                "name": "FONT_CONFORTAA_BOLD_40",
                 "type": "font"
             },
             {
@@ -157,7 +159,7 @@
     "shortName": "Heure en Fran\u00e7ais",
     "uuid": "6f5e450b-c15f-4a06-8326-6ca83e2fbd11",
     "versionCode": 1,
-    "versionLabel": "1.1",
+    "versionLabel": "1.11",
     "watchapp": {
         "watchface": true
     }
