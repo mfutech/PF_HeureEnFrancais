@@ -6,6 +6,13 @@
 #define KENYANCOFFEEFONT 0
 #define CONFORTAAFONT 1
 #define HARABARAFONT 0
+  
+#define TRUE 1
+#define FALSE 0
+#define KEY_MODE_NATURAL 1
+#define DEFAULT_MODE_NATURAL 0
+#define KEY_AUTO_TIME_MODE 2
+#define DEFAULT_AUTO_TIME_MODE 1
 
 static Window *s_main_window;
 static TextLayer *s_line1_layer;
@@ -25,8 +32,11 @@ static char s_line1[LINE_LEN];
 static char s_line2[LINE_LEN];
 static char s_line3[LINE_LEN];
 static char s_line4[LINE_LEN];
+static char debug_buffer[255];
 
 static bool date_mode = 0;
+static bool natural_mode;
+static bool auto_time_mode;
 
 void str_lower(char *str){
   int i = 0;
@@ -35,6 +45,11 @@ void str_lower(char *str){
     i++;
   }
 }
+
+int round_to_5(int min) {
+	return ((min+2)/5)*5;
+}
+
 
 void bld_text_layer_set_text(TextLayer *t_layer, char *str) {
   GSize sz;
@@ -104,9 +119,27 @@ static void display_debug() {
   reg_text_layer_set_text(s_line4_layer, "vingtxneuf");
 }
 
+static void set_mode(bool natural) {
+  natural_mode = natural;
+  persist_write_bool(KEY_MODE_NATURAL, natural_mode);
+  if(natural_mode) APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'naturel activé'");
+  else APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'naturel désactivé'");
+}
+
+static void get_config() {
+  // Begin dictionary
+  DictionaryIterator *iter;
+  app_message_outbox_begin(&iter);
+
+  // Add a key-value pair
+  dict_write_uint8(iter, 0, 0);
+
+  // Send the message!
+  app_message_outbox_send();
+}
 
 
-static void update_time() {
+static void show_time() {
   // Get a tm structure
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
@@ -114,12 +147,17 @@ static void update_time() {
   int hour_ref = tick_time->tm_hour;
   int min_ref  = tick_time->tm_min;
   bool need_minus = false;
+  bool pile = (min_ref == 0);
   
   if (min_ref > 30) {
     min_ref = 60 - min_ref;
     hour_ref += 1;
     need_minus = true;
   }
+  
+  if(natural_mode){
+    min_ref = round_to_5(min_ref);
+  }  
   
   if (hour_ref == 0 || hour_ref == 24) {
     bld_text_layer_set_text(s_line1_layer, "minuit");
@@ -139,7 +177,8 @@ static void update_time() {
   }
   switch(min_ref) {
     case 0:
-      reg_text_layer_set_text(s_line3_layer, "pile");
+      if (pile) reg_text_layer_set_text(s_line3_layer, "pile");
+      else reg_text_layer_set_text(s_line3_layer, "");
       reg_text_layer_set_text(s_line4_layer, " ");
       break;
     case 15:
@@ -168,16 +207,96 @@ static void update_time() {
   }
 }
 
+static void update_time() {
+  if (date_mode) show_date();
+  else show_time();
+}
+
+// ------------------------------------------ Manage persistent storage
+static void load_persist() {
+  natural_mode = persist_exists(KEY_MODE_NATURAL) ? persist_read_bool(KEY_MODE_NATURAL) : DEFAULT_MODE_NATURAL;
+  auto_time_mode = persist_exists(KEY_AUTO_TIME_MODE) ? persist_read_bool(KEY_AUTO_TIME_MODE) : DEFAULT_AUTO_TIME_MODE;
+  snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+}
+
+static void save_persist() {
+   persist_write_bool(KEY_MODE_NATURAL,natural_mode);
+   persist_write_bool(KEY_AUTO_TIME_MODE,auto_time_mode);
+  snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+}
+
 // ------------------------------------------ Callbacks ----------------------------------------
 
+// ------------------------------------------ Callbacks Time ----------------------------------------
+
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
+  if (auto_time_mode) date_mode = 0;
   update_time();
 }
+
+// ------------------------------------------ Callbacks Accellerometer ----------------------------------------
+
 static void tap_handler(AccelAxisType axis, int32_t direction) {
   date_mode = ! date_mode;
-  if (date_mode) show_date(); //display_debug();   
-  else update_time();
+  update_time();
 }
+
+// ------------------------------------------ Callbacks Messages ----------------------------------------
+
+
+static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Message received");
+  // Read first item
+  Tuple *t = dict_read_first(iterator);
+
+  // For all items
+  while(t != NULL) {
+    // Which key was received?
+    switch(t->key) {
+    case KEY_MODE_NATURAL:
+      set_mode((bool)t->value->int32);
+    break;
+    case KEY_AUTO_TIME_MODE:
+      auto_time_mode = (bool)t->value->int32;
+      if(auto_time_mode) APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto activé'");
+      else APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto désactivé'");
+
+    break;
+    default:
+      APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
+      break;
+    }
+
+    // Look for next item
+    t = dict_read_next(iterator);
+  }
+  update_time();
+  snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+
+}
+
+
+static void inbox_dropped_callback(AppMessageResult reason, void *context) {
+  APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
+}
+
+static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
+  APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
+}
+
+static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
+  APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
+}
+
 // ------------------------------------------- UI SETUP ----------------------------------------------
 static void main_window_load(Window *window) {
   // Load fonts
@@ -278,18 +397,31 @@ static void init() {
   // Show the Window on the watch, with animated=true
   window_stack_push(s_main_window, true);
 
-  // Make sure the time is displayed from the start
-  update_time();
-
   // Register with TickTimerService
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+
   // Register for tap events
   accel_tap_service_subscribe(tap_handler);
+
+  // Register callbacks for App Message
+  app_message_register_inbox_received(inbox_received_callback);
+  app_message_register_inbox_dropped(inbox_dropped_callback);
+  app_message_register_outbox_failed(outbox_failed_callback);
+  app_message_register_outbox_sent(outbox_sent_callback);
+  // Open AppMessage
+  app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());  
+  
+  // get config from persistent storage
+  load_persist();
+
+  // Make sure the time is displayed from the start
+  update_time();
 }
 
 static void deinit() {
   // Destroy Window
   window_destroy(s_main_window);
+  save_persist();
 }
 
 int main(void) {

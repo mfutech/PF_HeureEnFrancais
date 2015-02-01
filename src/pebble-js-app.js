@@ -6,16 +6,19 @@ var setPebbleToken = 'Q9BH';
 
 
 Pebble.addEventListener('ready', function(e) {
+  console.log('ready');
 });
 
 Pebble.addEventListener('appmessage', function(e) {
   key = e.payload.action;
-  if (typeof(key) != 'undefined') {
+  console.log('AppMessage received: ' + e.payload.action);
+  if (true || typeof(key) != 'undefined') {
     var settings = localStorage.getItem(setPebbleToken);
     if (typeof(settings) == 'string') {
       try {
         Pebble.sendAppMessage(JSON.parse(settings));
       } catch (e) {
+        console.log('appmessage exception');
       }
     }
     var request = new XMLHttpRequest();
@@ -42,9 +45,12 @@ Pebble.addEventListener('showConfiguration', function(e) {
 Pebble.addEventListener('webviewclosed', function(e) {
   if ((typeof(e.response) == 'string') && (e.response.length > 0)) {
     try {
-      Pebble.sendAppMessage(JSON.parse(e.response));
+      var response = JSON.parse(e.response);
+      console.log('Response: ' + JSON.stringify(response));
+      Pebble.sendAppMessage(response);
       localStorage.setItem(setPebbleToken, e.response);
     } catch(e) {
+      console.log('webviewclosed exception');
     }
   }
 });
