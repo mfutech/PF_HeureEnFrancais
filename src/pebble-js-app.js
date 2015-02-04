@@ -1,4 +1,4 @@
-//  file: pebble-js-app.js
+  //  file: pebble-js-app.js
 //  auth: Matthew Clark, SetPebble
 
 // change this token for your project
@@ -12,7 +12,7 @@ Pebble.addEventListener('ready', function(e) {
 Pebble.addEventListener('appmessage', function(e) {
   key = e.payload.action;
   console.log('AppMessage received: ' + e.payload.action);
-  if (true || typeof(key) != 'undefined') {
+  if (typeof(key) != 'undefined') {
     var settings = localStorage.getItem(setPebbleToken);
     if (typeof(settings) == 'string') {
       try {
@@ -22,8 +22,7 @@ Pebble.addEventListener('appmessage', function(e) {
       }
     }
     var request = new XMLHttpRequest();
-    console.log('acc token:' + Pebble.getAccountToken());
-    request.open('GET', 'http://x.SetPebble.com/api/' + setPebbleToken + '/' + Pebble.getAccountToken(), true);
+    request.open('GET', 'http://mfutech.github.io/PF_HeureEnFrancais/settings.html', true);
     request.onload = function(e) {
       if (request.readyState == 4)
         if (request.status == 200)
@@ -39,7 +38,8 @@ Pebble.addEventListener('appmessage', function(e) {
 
 Pebble.addEventListener('showConfiguration', function(e) {
   console.log('Account Token: ' + Pebble.getAccountToken());
-  Pebble.openURL('http://x.SetPebble.com/' + setPebbleToken + '/' + Pebble.getAccountToken());
+  var config = localStorage.getItem(setPebbleToken);
+  Pebble.openURL('http://mfutech.github.io/PF_HeureEnFrancais/settings.html?'+config);
 });
 
 Pebble.addEventListener('webviewclosed', function(e) {

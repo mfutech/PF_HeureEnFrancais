@@ -122,8 +122,8 @@ static void display_debug() {
 static void set_mode(bool natural) {
   natural_mode = natural;
   persist_write_bool(KEY_MODE_NATURAL, natural_mode);
-  if(natural_mode) APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'naturel activé'");
-  else APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'naturel désactivé'");
+  //if(natural_mode) APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'naturel activé'");
+  //else APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'naturel désactivé'");
 }
 
 static void get_config() {
@@ -216,19 +216,19 @@ static void update_time() {
 static void load_persist() {
   natural_mode = persist_exists(KEY_MODE_NATURAL) ? persist_read_bool(KEY_MODE_NATURAL) : DEFAULT_MODE_NATURAL;
   auto_time_mode = persist_exists(KEY_AUTO_TIME_MODE) ? persist_read_bool(KEY_AUTO_TIME_MODE) : DEFAULT_AUTO_TIME_MODE;
-  snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-  snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
 }
 
 static void save_persist() {
-   persist_write_bool(KEY_MODE_NATURAL,natural_mode);
-   persist_write_bool(KEY_AUTO_TIME_MODE,auto_time_mode);
-  snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-  snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  persist_write_bool(KEY_MODE_NATURAL,natural_mode);
+  persist_write_bool(KEY_AUTO_TIME_MODE,auto_time_mode);
+  //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
 }
 
 // ------------------------------------------ Callbacks ----------------------------------------
@@ -260,13 +260,16 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // Which key was received?
     switch(t->key) {
     case KEY_MODE_NATURAL:
-      set_mode((bool)t->value->int32);
+      set_mode((bool)atoi(t->value->cstring));
+      //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", (int)atoi(t->value->cstring));
+      //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
     break;
     case KEY_AUTO_TIME_MODE:
-      auto_time_mode = (bool)t->value->int32;
-      if(auto_time_mode) APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto activé'");
-      else APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto désactivé'");
-
+      auto_time_mode = (bool)atoi(t->value->cstring);
+      //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", (int)atoi(t->value->cstring));
+      //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+      //if(auto_time_mode) APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto activé'");
+      //else APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto désactivé'");
     break;
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
@@ -277,10 +280,10 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     t = dict_read_next(iterator);
   }
   update_time();
-  snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-  snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
+  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
 
 }
 

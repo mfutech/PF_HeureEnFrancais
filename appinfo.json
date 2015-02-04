@@ -160,7 +160,7 @@
     "shortName": "Heure en Fran\u00e7ais",
     "uuid": "6f5e450b-c15f-4a06-8326-6ca83e2fbd11",
     "versionCode": 1,
-    "versionLabel": "1.20",
+    "versionLabel": "1.30",
     "watchapp": {
         "watchface": true
     }
