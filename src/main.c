@@ -9,7 +9,9 @@
   
 #define TRUE 1
 #define FALSE 0
-#define KEY_MODE_NATURAL 1
+#define KEY_MODE_ROUNDED 1
+#define DEFAULT_MODE_ROUNDED 0
+#define KEY_MODE_NATURAL 3
 #define DEFAULT_MODE_NATURAL 0
 #define KEY_AUTO_TIME_MODE 2
 #define DEFAULT_AUTO_TIME_MODE 1
@@ -35,6 +37,7 @@ static char s_line4[LINE_LEN];
 static char debug_buffer[255];
 
 static bool date_mode = 0;
+static bool rounded_mode;
 static bool natural_mode;
 static bool auto_time_mode;
 
@@ -119,13 +122,6 @@ static void display_debug() {
   reg_text_layer_set_text(s_line4_layer, "vingtxneuf");
 }
 
-static void set_mode(bool natural) {
-  natural_mode = natural;
-  persist_write_bool(KEY_MODE_NATURAL, natural_mode);
-  //if(natural_mode) APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'naturel activé'");
-  //else APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'naturel désactivé'");
-}
-
 static void get_config() {
   // Begin dictionary
   DictionaryIterator *iter;
@@ -149,16 +145,26 @@ static void show_time() {
   bool need_minus = false;
   bool pile = (min_ref == 0);
   
-  if (min_ref > 30) {
-    min_ref = 60 - min_ref;
-    hour_ref += 1;
-    need_minus = true;
-  }
-  
-  if(natural_mode){
+  if(rounded_mode){
     min_ref = round_to_5(min_ref);
   }  
-  
+
+  if (natural_mode) { 
+	if (min_ref > 30) {
+		min_ref = 60 - min_ref;
+		hour_ref += 1;
+		need_minus = true;
+	}
+	show_hours(hour_ref);
+	show_minutes_30(min_ref, pile, need_minus);
+  }
+  else {
+	show_hours(hour_ref);
+	show_minutes_60(min_ref, pile);
+  }
+}
+
+void show_hours(int hour_ref) {
   if (hour_ref == 0 || hour_ref == 24) {
     bld_text_layer_set_text(s_line1_layer, "minuit");
     reg_text_layer_set_text(s_line2_layer, " ");
@@ -175,6 +181,8 @@ static void show_time() {
     else
       reg_text_layer_set_text(s_line2_layer, "heures");
   }
+}
+void show_minutes_30(int min_ref, bool pile, bool need_minus) {
   switch(min_ref) {
     case 0:
       if (pile) reg_text_layer_set_text(s_line3_layer, "pile");
@@ -207,6 +215,17 @@ static void show_time() {
   }
 }
 
+void show_minutes_60(min_ref, pile){
+	if (pile) {
+		reg_text_layer_set_text(s_line3_layer, "pile");
+		reg_text_layer_set_text(s_line4_layer, " ");
+		return;
+	}
+	char text[] = french_number_60[min_ref];
+	reg_text_layer_set_text(s_line3_layer, text[0]);
+	reg_text_layer_set_text(s_line4_layer, text[1]);
+  }
+
 static void update_time() {
   if (date_mode) show_date();
   else show_time();
@@ -214,6 +233,7 @@ static void update_time() {
 
 // ------------------------------------------ Manage persistent storage
 static void load_persist() {
+  rounded_mode = persist_exists(KEY_MODE_ROUNDED) ? persist_read_bool(KEY_MODE_ROUNDED) : DEFAULT_MODE_ROUNDED;
   natural_mode = persist_exists(KEY_MODE_NATURAL) ? persist_read_bool(KEY_MODE_NATURAL) : DEFAULT_MODE_NATURAL;
   auto_time_mode = persist_exists(KEY_AUTO_TIME_MODE) ? persist_read_bool(KEY_AUTO_TIME_MODE) : DEFAULT_AUTO_TIME_MODE;
   //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
@@ -223,8 +243,9 @@ static void load_persist() {
 }
 
 static void save_persist() {
-  persist_write_bool(KEY_MODE_NATURAL,natural_mode);
-  persist_write_bool(KEY_AUTO_TIME_MODE,auto_time_mode);
+  persist_write_bool(KEY_MODE_NATURAL, natural_mode);
+  persist_write_bool(KEY_AUTO_TIME_MODE, auto_time_mode);
+  persist_write_bool(KEY_MODE_ROUNDED, rounded_mode);
   //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
   //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
   //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
@@ -260,7 +281,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // Which key was received?
     switch(t->key) {
     case KEY_MODE_NATURAL:
-      set_mode((bool)atoi(t->value->cstring));
+      natural_mode = ((bool)atoi(t->value->cstring));
       //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", (int)atoi(t->value->cstring));
       //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
     break;
@@ -270,6 +291,11 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
       //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
       //if(auto_time_mode) APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto activé'");
       //else APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto désactivé'");
+    break;
+    case KEY_MODE_ROUNDED:
+      rounded_mode = ((bool)atoi(t->value->cstring));
+      //snprintf(debug_buffer, sizeof(debug_buffer), "rounded_mode: %d\n", (int)atoi(t->value->cstring));
+      //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
     break;
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
