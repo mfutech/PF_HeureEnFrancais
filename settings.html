@@ -17,9 +17,9 @@
       <div data-role="content">
 
         <div data-role="fieldcontain">
-          <label for="KEY_MODE_NATURAL">Format Heure:</label>
-          <select name="KEY_MODE_NATURAL" id="KEY_MODE_NATURAL" data-role="slider">
-            <option value=1>Naturel</option>
+          <label for="KEY_ROUNDED_MODE">Format Heure:</label>
+          <select name="KEY_ROUNDED_MODE" id="KEY_ROUNDED_MODE" data-role="slider">
+            <option value=1>Arrondi</option>
             <option value=0>Précis</option>
           </select>
         </div>
@@ -31,7 +31,16 @@
             <option value=0>Manuel</option>
           </select>
         </div>
-<!--
+
+        <div data-role="fieldcontain">
+          <label for="KEY_MODE_NATURAL">Mode Minutes:</label>
+          <select name="KEY_MODE_NATURAL" id="KEY_MODE_NATURAL" data-role="slider">
+            <option value=0>0-30 puis -30-0</option>
+            <option value=1>0-60</option>
+          </select>
+        </div>
+
+		<!--
         <div data-role="fieldcontain">
           <fieldset data-role="controlgroup">
             <legend>Choose as many snacks as you'd like:</legend>
