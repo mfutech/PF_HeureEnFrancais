@@ -2,6 +2,8 @@
 #include <ctype.h>
 #include <french_number.h>
   
+#define xxDEBUG
+  
 #define COOLVETICAFONT 0
 #define KENYANCOFFEEFONT 0
 #define CONFORTAAFONT 1
@@ -193,9 +195,8 @@ void show_minutes_60(int min_ref, bool pile){
 		return;
 	}
   else {
-	char *text[] = french_number_60[min_ref];
-	reg_text_layer_set_text(s_line3_layer, text[0]);
-	reg_text_layer_set_text(s_line4_layer, text[1]);
+	  reg_text_layer_set_text(s_line3_layer, french_number_60[min_ref][0]);
+	  reg_text_layer_set_text(s_line4_layer, french_number_60[min_ref][1]);
   }
 }
 
@@ -214,17 +215,17 @@ static void show_time() {
   }  
 
   if (natural_mode) { 
-	if (min_ref > 30) {
-		min_ref = 60 - min_ref;
-		hour_ref += 1;
-		need_minus = true;
-	}
-	show_hours(hour_ref);
-	show_minutes_30(min_ref, pile, need_minus);
+	  if (min_ref > 30) {
+		  min_ref = 60 - min_ref;
+		  hour_ref += 1;
+		  need_minus = true;
+	  }
+	  show_hours(hour_ref);
+	  show_minutes_30(min_ref, pile, need_minus);
   }
   else {
-	show_hours(hour_ref);
-	show_minutes_60(min_ref, pile);
+	  show_hours(hour_ref);
+	  show_minutes_60(min_ref, pile);
   }
 }
 static void update_time() {
@@ -237,20 +238,24 @@ static void load_persist() {
   rounded_mode = persist_exists(KEY_MODE_ROUNDED) ? persist_read_bool(KEY_MODE_ROUNDED) : DEFAULT_MODE_ROUNDED;
   natural_mode = persist_exists(KEY_MODE_NATURAL) ? persist_read_bool(KEY_MODE_NATURAL) : DEFAULT_MODE_NATURAL;
   auto_time_mode = persist_exists(KEY_AUTO_TIME_MODE) ? persist_read_bool(KEY_AUTO_TIME_MODE) : DEFAULT_AUTO_TIME_MODE;
-  //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-  //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#ifdef DEBUG
+  snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
 }
 
 static void save_persist() {
   persist_write_bool(KEY_MODE_NATURAL, natural_mode);
   persist_write_bool(KEY_AUTO_TIME_MODE, auto_time_mode);
   persist_write_bool(KEY_MODE_ROUNDED, rounded_mode);
+#ifdef DEBUG
   //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
   //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
   //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
   //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
 }
 
 // ------------------------------------------ Callbacks ----------------------------------------
@@ -283,21 +288,25 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     switch(t->key) {
     case KEY_MODE_NATURAL:
       natural_mode = ((bool)atoi(t->value->cstring));
-      //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", (int)atoi(t->value->cstring));
-      //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#ifdef DEBUG
+      snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", (int)atoi(t->value->cstring));
+      APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
     break;
     case KEY_AUTO_TIME_MODE:
       auto_time_mode = (bool)atoi(t->value->cstring);
-      //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", (int)atoi(t->value->cstring));
-      //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-      //if(auto_time_mode) APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto activé'");
-      //else APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto désactivé'");
-    break;
+#ifdef DEBUG
+      snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", (int)atoi(t->value->cstring));
+      APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
+  break;
     case KEY_MODE_ROUNDED:
       rounded_mode = ((bool)atoi(t->value->cstring));
-      //snprintf(debug_buffer, sizeof(debug_buffer), "rounded_mode: %d\n", (int)atoi(t->value->cstring));
-      //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-    break;
+#ifdef DEBUG
+      snprintf(debug_buffer, sizeof(debug_buffer), "rounded_mode: %d\n", (int)atoi(t->value->cstring));
+      APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
+  break;
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
       break;
