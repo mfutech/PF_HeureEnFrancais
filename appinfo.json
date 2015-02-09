@@ -12,129 +12,15 @@
     "resources": {
         "media": [
             {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Regular.ttf",
-                "name": "FONT_CONFORTAA_34",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Regular.ttf",
-                "name": "FONT_CONFORTAA_28",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Regular.ttf",
-                "name": "FONT_CONFORTAA_24",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Regular.ttf",
-                "name": "FONT_CONFORTAA_18",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Regular.ttf",
-                "name": "FONT_CONFORTAA_20",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Bold.ttf",
-                "name": "FONT_CONFORTAA_BOLD_48",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Bold.ttf",
-                "name": "FONT_CONFORTAA_BOLD_40",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. ]",
-                "file": "fonts/coolvetica rg.ttf",
-                "name": "FONT_COOLVETICA_22",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. ]",
-                "file": "fonts/coolvetica rg.ttf",
-                "name": "FONT_COOLVETICA_24",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. ]",
-                "file": "fonts/coolvetica rg.ttf",
-                "name": "FONT_COOLVETICA_28",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. ]",
-                "file": "fonts/coolvetica rg.ttf",
-                "name": "FONT_COOLVETICA_34",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. ]",
-                "file": "fonts/coolvetica rg.ttf",
-                "name": "FONT_COOLVETICA_48",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:.  -]",
-                "file": "fonts/Harabara Mais Demo.ttf",
-                "name": "FONT_HARABARA_24",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:.  ]",
-                "file": "fonts/Harabara Mais Demo.ttf",
-                "name": "FONT_HARABARA_34",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:.  ]",
-                "file": "fonts/Harabara Mais Demo.ttf",
-                "name": "FONT_HARABARA_48",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:.  ]",
-                "file": "fonts/Harabara Mais Demo.ttf",
-                "name": "FONT_HARABARA_20",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z ]",
-                "file": "fonts/Roboto-BoldCondensed.ttf",
-                "name": "FONT_ROBOT_COND_BOLD_32",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z ]",
-                "file": "fonts/Roboto-Condensed.ttf",
-                "name": "FONT_ROBOTO_CONDENSED_24",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z ]",
-                "file": "fonts/Roboto-Condensed.ttf",
-                "name": "FONT_ROBOTO_CONDENSED_48",
+                "characterRegex": "[-a-z0-9 ]",
+                "file": "fonts/kenyan coffee bd.ttf",
+                "name": "FONT_KENYAN_COFFEE_BOLD_48",
                 "type": "font"
             },
             {
                 "characterRegex": "[-a-z0-9 ]",
                 "file": "fonts/kenyan coffee rg.ttf",
-                "name": "FONT_KENYAN_COFFEE_48",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-a-z0-9 ]",
-                "file": "fonts/kenyan coffee rg.ttf",
-                "name": "FONT_KENYAN_COFFEE_34",
+                "name": "FONT_KENYAN_COFFEE_24",
                 "type": "font"
             },
             {
@@ -146,13 +32,127 @@
             {
                 "characterRegex": "[-a-z0-9 ]",
                 "file": "fonts/kenyan coffee rg.ttf",
-                "name": "FONT_KENYAN_COFFEE_24",
+                "name": "FONT_KENYAN_COFFEE_34",
                 "type": "font"
             },
             {
                 "characterRegex": "[-a-z0-9 ]",
-                "file": "fonts/kenyan coffee bd.ttf",
-                "name": "FONT_KENYAN_COFFEE_BOLD_48",
+                "file": "fonts/kenyan coffee rg.ttf",
+                "name": "FONT_KENYAN_COFFEE_48",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/Roboto-Condensed.ttf",
+                "name": "FONT_ROBOTO_CONDENSED_48",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/Roboto-Condensed.ttf",
+                "name": "FONT_ROBOTO_CONDENSED_24",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z ]",
+                "file": "fonts/Roboto-BoldCondensed.ttf",
+                "name": "FONT_ROBOT_COND_BOLD_32",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:.  ]",
+                "file": "fonts/Harabara Mais Demo.ttf",
+                "name": "FONT_HARABARA_20",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:.  ]",
+                "file": "fonts/Harabara Mais Demo.ttf",
+                "name": "FONT_HARABARA_48",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:.  ]",
+                "file": "fonts/Harabara Mais Demo.ttf",
+                "name": "FONT_HARABARA_34",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:.  -]",
+                "file": "fonts/Harabara Mais Demo.ttf",
+                "name": "FONT_HARABARA_24",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. ]",
+                "file": "fonts/coolvetica rg.ttf",
+                "name": "FONT_COOLVETICA_48",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. ]",
+                "file": "fonts/coolvetica rg.ttf",
+                "name": "FONT_COOLVETICA_34",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. ]",
+                "file": "fonts/coolvetica rg.ttf",
+                "name": "FONT_COOLVETICA_28",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. ]",
+                "file": "fonts/coolvetica rg.ttf",
+                "name": "FONT_COOLVETICA_24",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. ]",
+                "file": "fonts/coolvetica rg.ttf",
+                "name": "FONT_COOLVETICA_22",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Bold.ttf",
+                "name": "FONT_CONFORTAA_BOLD_40",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Bold.ttf",
+                "name": "FONT_CONFORTAA_BOLD_48",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_20",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_18",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_24",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_28",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Regular.ttf",
+                "name": "FONT_CONFORTAA_34",
                 "type": "font"
             }
         ]

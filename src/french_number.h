@@ -38,7 +38,7 @@ static char* french_number[] = {
 /* 32 */	"demie"
 };
 
-static char** french_number_60[] = {
+static char french_number_60[][][]= {
 /*  0 */	{ "pile", ""},  			
 /*  1 */	{ "une", ""},
 /*  2 */	{ "deux", ""},
