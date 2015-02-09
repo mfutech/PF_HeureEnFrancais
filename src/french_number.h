@@ -1,4 +1,3 @@
-
 static char* french_number[] = {
 #define FRENCH_DIGIT_0 0
 /*  0 */	"zéro",   			
@@ -38,7 +37,7 @@ static char* french_number[] = {
 /* 32 */	"demie"
 };
 
-static char** french_number_60[] = {
+static char *french_number_60[60][2] = {
 /*  0 */	{ "pile", ""},  			
 /*  1 */	{ "une", ""},
 /*  2 */	{ "deux", ""},
@@ -57,19 +56,20 @@ static char** french_number_60[] = {
 /* 15 */	{ "quinze", ""},
 /* 16 */	{ "seize", ""},
 /* 17 */	{ "dix", "sept"},
-/* 18 */	{ "dix", "-huit"},
-/* 19 */	{ "dix", "-neuf"},
+/* 18 */	{ "dix", "huit"},
+/* 19 */	{ "dix", "neuf"},
 /* 20 */	{ "vingt", ""},
 /* 21 */	{ "vingt", " et une"},
-/* 22 */	{ "vingt", "-deux"},
-/* 23 */	{ "vingt", "-trois"},
-/* 24 */	{ "vingt", "-quatre"},
-/* 25 */	{ "vingt", "-cinq"},
-/* 26 */	{ "vingt", "-six"},
-/* 27 */	{ "vingt", "-sept"},
-/* 28 */	{ "vingt", "-huit"},
-/* 29 */	{ "vingt", "-neuf"},
+/* 22 */	{ "vingt", "deux"},
+/* 23 */	{ "vingt", "trois"},
+/* 24 */	{ "vingt", "quatre"},
+/* 25 */	{ "vingt", "cinq"},
+/* 26 */	{ "vingt", "six"},
+/* 27 */	{ "vingt", "sept"},
+/* 28 */	{ "vingt", "huit"},
+/* 29 */	{ "vingt", "neuf"},
 /* 30 */	{ "et", "demie"},
+/* 31 */    { "trente", "et une"},
 /* 32 */    { "trente", "deux"},
 /* 33 */    { "trente", "trois"},
 /* 34 */    { "trente", "quatre"},
@@ -79,7 +79,7 @@ static char** french_number_60[] = {
 /* 38 */    { "trente", "huit"},
 /* 39 */    { "trente", "neuf"},
 /* 40 */    { "quarante", ""},
-/* 41 */    { "quarante", "un"},
+/* 41 */    { "quarante", "et une"},
 /* 42 */    { "quarante", "deux"},
 /* 43 */    { "quarante", "trois"},
 /* 44 */    { "quarante", "quatre"},
@@ -89,7 +89,7 @@ static char** french_number_60[] = {
 /* 48 */    { "quarante", "huit"},
 /* 59 */    { "quarante", "neuf"},
 /* 50 */    { "cinquante", ""},
-/* 51 */    { "cinquante", "et un"},
+/* 51 */    { "cinquante", "et une"},
 /* 52 */    { "cinquante", "deux"},
 /* 53 */    { "cinquante", "trois"},
 /* 54 */    { "cinquante", "quatre"},
