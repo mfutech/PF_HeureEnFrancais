@@ -135,35 +135,6 @@ static void get_config() {
 }
 
 
-static void show_time() {
-  // Get a tm structure
-  time_t temp = time(NULL); 
-  struct tm *tick_time = localtime(&temp);
-
-  int hour_ref = tick_time->tm_hour;
-  int min_ref  = tick_time->tm_min;
-  bool need_minus = false;
-  bool pile = (min_ref == 0);
-  
-  if(rounded_mode){
-    min_ref = round_to_5(min_ref);
-  }  
-
-  if (natural_mode) { 
-	if (min_ref > 30) {
-		min_ref = 60 - min_ref;
-		hour_ref += 1;
-		need_minus = true;
-	}
-	show_hours(hour_ref);
-	show_minutes_30(min_ref, pile, need_minus);
-  }
-  else {
-	show_hours(hour_ref);
-	show_minutes_60(min_ref, pile);
-  }
-}
-
 void show_hours(int hour_ref) {
   if (hour_ref == 0 || hour_ref == 24) {
     bld_text_layer_set_text(s_line1_layer, "minuit");
@@ -215,17 +186,47 @@ void show_minutes_30(int min_ref, bool pile, bool need_minus) {
   }
 }
 
-void show_minutes_60(min_ref, pile){
+void show_minutes_60(int min_ref, bool pile){
 	if (pile) {
 		reg_text_layer_set_text(s_line3_layer, "pile");
 		reg_text_layer_set_text(s_line4_layer, " ");
 		return;
 	}
-	char text[] = french_number_60[min_ref];
+  else {
+	char *text[] = french_number_60[min_ref];
 	reg_text_layer_set_text(s_line3_layer, text[0]);
 	reg_text_layer_set_text(s_line4_layer, text[1]);
   }
+}
 
+static void show_time() {
+  // Get a tm structure
+  time_t temp = time(NULL); 
+  struct tm *tick_time = localtime(&temp);
+
+  int hour_ref = tick_time->tm_hour;
+  int min_ref  = tick_time->tm_min;
+  bool need_minus = false;
+  bool pile = (min_ref == 0);
+  
+  if(rounded_mode){
+    min_ref = round_to_5(min_ref);
+  }  
+
+  if (natural_mode) { 
+	if (min_ref > 30) {
+		min_ref = 60 - min_ref;
+		hour_ref += 1;
+		need_minus = true;
+	}
+	show_hours(hour_ref);
+	show_minutes_30(min_ref, pile, need_minus);
+  }
+  else {
+	show_hours(hour_ref);
+	show_minutes_60(min_ref, pile);
+  }
+}
 static void update_time() {
   if (date_mode) show_date();
   else show_time();

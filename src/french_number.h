@@ -97,5 +97,5 @@ static char *french_number_60[60][2] = {
 /* 56 */    { "cinquante", "six"},
 /* 57 */    { "cinquante", "sept"},
 /* 58 */    { "cinquante", "huit"},
-/* 69 */    { "cinquante", "neuf"}
+/* 59 */    { "cinquante", "neuf"}
 };
