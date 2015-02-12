@@ -484,6 +484,7 @@ static void init() {
   load_persist();
 
   // Make sure the time is displayed from the start
+  set_text_color(revert_color_mode);
   update_time();
 }
 
