@@ -2,7 +2,8 @@
     "appKeys": {
         "KEY_AUTO_TIME_MODE": 2,
         "KEY_MODE_NATURAL": 3,
-        "KEY_MODE_ROUNDED": 1
+        "KEY_MODE_ROUNDED": 1,
+        "KEY_REVERT_COLOR_MODE": 4
     },
     "capabilities": [
         "configurable"
@@ -161,7 +162,7 @@
     "shortName": "Heure en Fran\u00e7ais",
     "uuid": "6f5e450b-c15f-4a06-8326-6ca83e2fbd11",
     "versionCode": 1,
-    "versionLabel": "1.40",
+    "versionLabel": "1.50",
     "watchapp": {
         "watchface": true
     }

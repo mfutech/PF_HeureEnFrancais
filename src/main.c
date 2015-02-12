@@ -17,6 +17,9 @@
 #define DEFAULT_MODE_NATURAL 0
 #define KEY_AUTO_TIME_MODE 2
 #define DEFAULT_AUTO_TIME_MODE 1
+#define KEY_REVERT_COLOR_MODE 4
+#define DEFAULT_REVERT_COLOR_MODE 0
+
 
 static Window *s_main_window;
 static TextLayer *s_line1_layer;
@@ -42,6 +45,7 @@ static bool date_mode = 0;
 static bool rounded_mode;
 static bool natural_mode;
 static bool auto_time_mode;
+static bool revert_color_mode;
 
 void str_lower(char *str){
   int i = 0;
@@ -86,6 +90,8 @@ void reg_text_layer_set_text(TextLayer *t_layer, char *str) {
   sz = text_layer_get_content_size(t_layer);
   //APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
 }
+
+#ifdef DEBUG
 void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
   //text_layer_get_content_size
   if (strlen(str) > 8)
@@ -96,7 +102,20 @@ void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
     text_layer_set_font(t_layer, s_medium_font);
   text_layer_set_text(t_layer, str);
 }
-
+#endif
+void set_text_color(bool revert) {
+	int bgcol = revert ? GColorBlack : GColorClear;
+	int fgcol = revert ? GColorClear : GColorBlack;
+	window_set_background_color(s_main_window, bgcol);
+	text_layer_set_background_color(s_line1_layer, bgcol);
+	text_layer_set_text_color(s_line1_layer, fgcol);
+	text_layer_set_background_color(s_line2_layer, bgcol);
+	text_layer_set_text_color(s_line2_layer, fgcol);
+	text_layer_set_background_color(s_line3_layer, bgcol);
+	text_layer_set_text_color(s_line3_layer, fgcol);
+	text_layer_set_background_color(s_line4_layer, bgcol);
+	text_layer_set_text_color(s_line4_layer, fgcol);
+}
 
 static void show_date() {
   //APP_LOG(APP_LOG_LEVEL_DEBUG, "set local : %s", setlocale(LC_ALL, "fr_FR"));
@@ -115,7 +134,7 @@ static void show_date() {
   reg_text_layer_set_text(s_line4_layer, s_line4);
 
 }
-
+#ifdef DEBUG
 static void display_debug() {
   // Get a tm structure
   bld_text_layer_set_text(s_line1_layer, "quatre");
@@ -123,7 +142,8 @@ static void display_debug() {
   reg_text_layer_set_text(s_line3_layer, "vingt-neuf");
   reg_text_layer_set_text(s_line4_layer, "vingtxneuf");
 }
-
+#endif
+#if 0
 static void get_config() {
   // Begin dictionary
   DictionaryIterator *iter;
@@ -135,7 +155,7 @@ static void get_config() {
   // Send the message!
   app_message_outbox_send();
 }
-
+#endif
 
 void show_hours(int hour_ref) {
   if (hour_ref == 0 || hour_ref == 24) {
@@ -238,6 +258,7 @@ static void load_persist() {
   rounded_mode = persist_exists(KEY_MODE_ROUNDED) ? persist_read_bool(KEY_MODE_ROUNDED) : DEFAULT_MODE_ROUNDED;
   natural_mode = persist_exists(KEY_MODE_NATURAL) ? persist_read_bool(KEY_MODE_NATURAL) : DEFAULT_MODE_NATURAL;
   auto_time_mode = persist_exists(KEY_AUTO_TIME_MODE) ? persist_read_bool(KEY_AUTO_TIME_MODE) : DEFAULT_AUTO_TIME_MODE;
+  revert_color_mode = persist_exists(KEY_REVERT_COLOR_MODE) ? persist_read_bool(KEY_REVERT_COLOR_MODE) : DEFAULT_REVERT_COLOR_MODE;
 #ifdef DEBUG
   snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
   APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
@@ -250,6 +271,7 @@ static void save_persist() {
   persist_write_bool(KEY_MODE_NATURAL, natural_mode);
   persist_write_bool(KEY_AUTO_TIME_MODE, auto_time_mode);
   persist_write_bool(KEY_MODE_ROUNDED, rounded_mode);
+  persist_write_bool(KEY_REVERT_COLOR_MODE, revert_color_mode);
 #ifdef DEBUG
   //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
   //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
@@ -287,26 +309,33 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // Which key was received?
     switch(t->key) {
     case KEY_MODE_NATURAL:
-      natural_mode = ((bool)atoi(t->value->cstring));
+		natural_mode = ((bool)atoi(t->value->cstring));
 #ifdef DEBUG
-      snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", (int)atoi(t->value->cstring));
-      APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+		snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", (int)atoi(t->value->cstring));
+		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
 #endif
     break;
     case KEY_AUTO_TIME_MODE:
-      auto_time_mode = (bool)atoi(t->value->cstring);
+		auto_time_mode = (bool)atoi(t->value->cstring);
 #ifdef DEBUG
-      snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", (int)atoi(t->value->cstring));
-      APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+		snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", (int)atoi(t->value->cstring));
+		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
 #endif
-  break;
+	break;
     case KEY_MODE_ROUNDED:
-      rounded_mode = ((bool)atoi(t->value->cstring));
+		rounded_mode = ((bool)atoi(t->value->cstring));
 #ifdef DEBUG
-      snprintf(debug_buffer, sizeof(debug_buffer), "rounded_mode: %d\n", (int)atoi(t->value->cstring));
-      APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+		snprintf(debug_buffer, sizeof(debug_buffer), "rounded_mode: %d\n", (int)atoi(t->value->cstring));
+		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
 #endif
-  break;
+	break;
+    case KEY_REVERT_COLOR_MODE:
+		revert_color_mode = ((bool)atoi(t->value->cstring));
+#ifdef DEBUG
+		snprintf(debug_buffer, sizeof(debug_buffer), "revert_color_mode: %d\n", (int)atoi(t->value->cstring));
+		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
+	break;
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
       break;
@@ -315,6 +344,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // Look for next item
     t = dict_read_next(iterator);
   }
+  set_text_color(revert_color_mode);
   update_time();
   //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
   //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
