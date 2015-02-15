@@ -2,6 +2,8 @@
 #include <ctype.h>
 #include <french_number.h>
   
+#define DEBUG
+  
 #define COOLVETICAFONT 0
 #define KENYANCOFFEEFONT 0
 #define CONFORTAAFONT 1
@@ -15,6 +17,9 @@
 #define DEFAULT_MODE_NATURAL 0
 #define KEY_AUTO_TIME_MODE 2
 #define DEFAULT_AUTO_TIME_MODE 1
+#define KEY_REVERT_COLOR_MODE 4
+#define DEFAULT_REVERT_COLOR_MODE 0
+
 
 static Window *s_main_window;
 static TextLayer *s_line1_layer;
@@ -40,6 +45,7 @@ static bool date_mode = 0;
 static bool rounded_mode;
 static bool natural_mode;
 static bool auto_time_mode;
+static bool revert_color_mode;
 
 void str_lower(char *str){
   int i = 0;
@@ -56,34 +62,36 @@ int round_to_5(int min) {
 
 void bld_text_layer_set_text(TextLayer *t_layer, char *str) {
   GSize sz;
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "bold text: %s", str);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "bold text: %s", str);
   text_layer_set_font(t_layer, s_bld_big_font);
   text_layer_set_text(t_layer, str);
   sz = text_layer_get_content_size(t_layer);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "bold big, sz: %d x %d", sz.h, sz.w);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "bold big, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
   text_layer_set_font(t_layer, s_medium_font);
   sz = text_layer_get_content_size(t_layer);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "bold medium, sz: %d x %d", sz.h, sz.w);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "bold medium, sz: %d x %d", sz.h, sz.w);
 }
 
 
 void reg_text_layer_set_text(TextLayer *t_layer, char *str) {
   GSize sz;
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "text: %s", str);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "text: %s", str);
   text_layer_set_font(t_layer, s_medium_font);
   text_layer_set_text(t_layer, str);
   sz = text_layer_get_content_size(t_layer);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "medium, sz: %d x %d", sz.h, sz.w);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "medium, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
   text_layer_set_font(t_layer, s_small_font);
   sz = text_layer_get_content_size(t_layer);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "small, sz: %d x %d", sz.h, sz.w);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "small, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
   text_layer_set_font(t_layer, s_tiny_font);
   sz = text_layer_get_content_size(t_layer);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
 }
+
+#ifdef DEBUG
 void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
   //text_layer_get_content_size
   if (strlen(str) > 8)
@@ -94,7 +102,20 @@ void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
     text_layer_set_font(t_layer, s_medium_font);
   text_layer_set_text(t_layer, str);
 }
-
+#endif
+void set_text_color(bool revert) {
+	int bgcol = revert ? GColorBlack : GColorClear;
+	int fgcol = revert ? GColorClear : GColorBlack;
+	window_set_background_color(s_main_window, fgcol);
+	text_layer_set_background_color(s_line1_layer, bgcol);
+	text_layer_set_text_color(s_line1_layer, fgcol);
+	text_layer_set_background_color(s_line2_layer, bgcol);
+	text_layer_set_text_color(s_line2_layer, fgcol);
+	text_layer_set_background_color(s_line3_layer, bgcol);
+	text_layer_set_text_color(s_line3_layer, fgcol);
+	text_layer_set_background_color(s_line4_layer, bgcol);
+	text_layer_set_text_color(s_line4_layer, fgcol);
+}
 
 static void show_date() {
   //APP_LOG(APP_LOG_LEVEL_DEBUG, "set local : %s", setlocale(LC_ALL, "fr_FR"));
@@ -113,7 +134,6 @@ static void show_date() {
   reg_text_layer_set_text(s_line4_layer, s_line4);
 
 }
-
 static void display_debug() {
   // Get a tm structure
   bld_text_layer_set_text(s_line1_layer, "quatre");
@@ -121,7 +141,14 @@ static void display_debug() {
   reg_text_layer_set_text(s_line3_layer, "vingt-neuf");
   reg_text_layer_set_text(s_line4_layer, "vingtxneuf");
 }
-
+static void display_debug2() {
+  // Get a tm structure
+  bld_text_layer_set_text(s_line1_layer, "gghh");
+  reg_text_layer_set_text(s_line2_layer, "gghh");
+  reg_text_layer_set_text(s_line3_layer, "gghh");
+  reg_text_layer_set_text(s_line4_layer, "gghh");
+}
+#if 0
 static void get_config() {
   // Begin dictionary
   DictionaryIterator *iter;
@@ -133,7 +160,7 @@ static void get_config() {
   // Send the message!
   app_message_outbox_send();
 }
-
+#endif
 
 void show_hours(int hour_ref) {
   if (hour_ref == 0 || hour_ref == 24) {
@@ -193,9 +220,8 @@ void show_minutes_60(int min_ref, bool pile){
 		return;
 	}
   else {
-	char *text[] = french_number_60[min_ref];
-	reg_text_layer_set_text(s_line3_layer, text[0]);
-	reg_text_layer_set_text(s_line4_layer, text[1]);
+	  reg_text_layer_set_text(s_line3_layer, french_number_60[min_ref][0]);
+	  reg_text_layer_set_text(s_line4_layer, french_number_60[min_ref][1]);
   }
 }
 
@@ -214,22 +240,22 @@ static void show_time() {
   }  
 
   if (natural_mode) { 
-	if (min_ref > 30) {
-		min_ref = 60 - min_ref;
-		hour_ref += 1;
-		need_minus = true;
-	}
-	show_hours(hour_ref);
-	show_minutes_30(min_ref, pile, need_minus);
+	  if (min_ref > 30) {
+		  min_ref = 60 - min_ref;
+		  hour_ref += 1;
+		  need_minus = true;
+	  }
+	  show_hours(hour_ref);
+	  show_minutes_30(min_ref, pile, need_minus);
   }
   else {
-	show_hours(hour_ref);
-	show_minutes_60(min_ref, pile);
+	  show_hours(hour_ref);
+	  show_minutes_60(min_ref, pile);
   }
 }
 static void update_time() {
-  if (date_mode) show_date();
-  else show_time();
+  if (date_mode) display_debug(); //show_date();
+  else display_debug2(); //show_time();
 }
 
 // ------------------------------------------ Manage persistent storage
@@ -237,20 +263,26 @@ static void load_persist() {
   rounded_mode = persist_exists(KEY_MODE_ROUNDED) ? persist_read_bool(KEY_MODE_ROUNDED) : DEFAULT_MODE_ROUNDED;
   natural_mode = persist_exists(KEY_MODE_NATURAL) ? persist_read_bool(KEY_MODE_NATURAL) : DEFAULT_MODE_NATURAL;
   auto_time_mode = persist_exists(KEY_AUTO_TIME_MODE) ? persist_read_bool(KEY_AUTO_TIME_MODE) : DEFAULT_AUTO_TIME_MODE;
-  //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-  //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  revert_color_mode = persist_exists(KEY_REVERT_COLOR_MODE) ? persist_read_bool(KEY_REVERT_COLOR_MODE) : DEFAULT_REVERT_COLOR_MODE;
+#ifdef DEBUG
+  snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
 }
 
 static void save_persist() {
   persist_write_bool(KEY_MODE_NATURAL, natural_mode);
   persist_write_bool(KEY_AUTO_TIME_MODE, auto_time_mode);
   persist_write_bool(KEY_MODE_ROUNDED, rounded_mode);
+  persist_write_bool(KEY_REVERT_COLOR_MODE, revert_color_mode);
+#ifdef DEBUG
   //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
   //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
   //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
   //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
 }
 
 // ------------------------------------------ Callbacks ----------------------------------------
@@ -282,22 +314,33 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // Which key was received?
     switch(t->key) {
     case KEY_MODE_NATURAL:
-      natural_mode = ((bool)atoi(t->value->cstring));
-      //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", (int)atoi(t->value->cstring));
-      //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+		natural_mode = ((bool)atoi(t->value->cstring));
+#ifdef DEBUG
+		snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", (int)atoi(t->value->cstring));
+		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
     break;
     case KEY_AUTO_TIME_MODE:
-      auto_time_mode = (bool)atoi(t->value->cstring);
-      //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", (int)atoi(t->value->cstring));
-      //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-      //if(auto_time_mode) APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto activé'");
-      //else APP_LOG(APP_LOG_LEVEL_DEBUG, "mode 'auto désactivé'");
-    break;
+		auto_time_mode = (bool)atoi(t->value->cstring);
+#ifdef DEBUG
+		snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", (int)atoi(t->value->cstring));
+		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
+	break;
     case KEY_MODE_ROUNDED:
-      rounded_mode = ((bool)atoi(t->value->cstring));
-      //snprintf(debug_buffer, sizeof(debug_buffer), "rounded_mode: %d\n", (int)atoi(t->value->cstring));
-      //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-    break;
+		rounded_mode = ((bool)atoi(t->value->cstring));
+#ifdef DEBUG
+		snprintf(debug_buffer, sizeof(debug_buffer), "rounded_mode: %d\n", (int)atoi(t->value->cstring));
+		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
+	break;
+    case KEY_REVERT_COLOR_MODE:
+		revert_color_mode = ((bool)atoi(t->value->cstring));
+#ifdef DEBUG
+		snprintf(debug_buffer, sizeof(debug_buffer), "revert_color_mode: %d\n", (int)atoi(t->value->cstring));
+		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+#endif
+	break;
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
       break;
@@ -306,11 +349,12 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // Look for next item
     t = dict_read_next(iterator);
   }
+  set_text_color(revert_color_mode);
   update_time();
-  //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-  //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
+  snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
 
 }
 
@@ -360,7 +404,7 @@ static void main_window_load(Window *window) {
 #endif
   // Create lines TextLayer
   int y = 0;
-  s_line1_layer = text_layer_create(GRect(1, y, 143, 53)); y += 53; /*53*/
+  s_line1_layer = text_layer_create(GRect(0, y, 143, 53)); y += 53; /*53*/
   text_layer_set_text_alignment(s_line1_layer, GTextAlignmentLeft);
   text_layer_set_background_color(s_line1_layer, GColorClear);
   text_layer_set_text_color(s_line1_layer, GColorBlack);
@@ -372,7 +416,7 @@ static void main_window_load(Window *window) {
   text_layer_set_text_color(s_line2_layer, GColorBlack);
   text_layer_set_text(s_line2_layer, "02:00");
 
-  s_line3_layer = text_layer_create(GRect(2, y, 143, 37)); y += 37; /*127*/
+  s_line3_layer = text_layer_create(GRect(0, y, 143, 37)); y += 37; /*127*/
   text_layer_set_text_alignment(s_line3_layer, GTextAlignmentLeft);
   text_layer_set_background_color(s_line3_layer, GColorClear);
   text_layer_set_text_color(s_line3_layer, GColorBlack);
@@ -445,6 +489,7 @@ static void init() {
   load_persist();
 
   // Make sure the time is displayed from the start
+  set_text_color(revert_color_mode);
   update_time();
 }
 
