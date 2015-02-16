@@ -3,7 +3,14 @@
 #include <french_number.h>
   
 #define xxDEBUG
-  
+
+#ifdef DEBUG
+#define MY_APP_LOG(level, fmt, args...)                                \
+  app_log(level, __FILE_NAME__, __LINE__, fmt, ## args)
+#else
+#define MY_APP_LOG(level, fmt, args...) 
+#endif
+
 #define COOLVETICAFONT 0
 #define KENYANCOFFEEFONT 0
 #define CONFORTAAFONT 1
@@ -18,7 +25,7 @@
 #define KEY_AUTO_TIME_MODE 2
 #define DEFAULT_AUTO_TIME_MODE 1
 #define KEY_REVERT_COLOR_MODE 4
-#define DEFAULT_REVERT_COLOR_MODE 0
+#define DEFAULT_REVERT_COLOR_MODE 1
 
 
 static Window *s_main_window;
@@ -39,7 +46,6 @@ static char s_line1[LINE_LEN];
 static char s_line2[LINE_LEN];
 static char s_line3[LINE_LEN];
 static char s_line4[LINE_LEN];
-static char debug_buffer[255];
 
 static bool date_mode = 0;
 static bool rounded_mode;
@@ -59,36 +65,56 @@ int round_to_5(int min) {
 	return ((min+2)/5)*5;
 }
 
+void mark_text_as_dirty() {
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter mark_text_as_dirty");
+  layer_set_hidden((Layer*)text_layer_get_layer(s_line1_layer), true);
+  layer_set_hidden((Layer*)text_layer_get_layer(s_line2_layer), true);
+  layer_set_hidden((Layer*)text_layer_get_layer(s_line3_layer), true);
+  layer_set_hidden((Layer*)text_layer_get_layer(s_line4_layer), true);
+  layer_set_hidden((Layer*)text_layer_get_layer(s_line1_layer), false);
+  layer_set_hidden((Layer*)text_layer_get_layer(s_line2_layer), false);
+  layer_set_hidden((Layer*)text_layer_get_layer(s_line3_layer), false);
+  layer_set_hidden((Layer*)text_layer_get_layer(s_line4_layer), false);
+  layer_mark_dirty((Layer*)text_layer_get_layer(s_line1_layer));
+  layer_mark_dirty((Layer*)text_layer_get_layer(s_line2_layer));
+  layer_mark_dirty((Layer*)text_layer_get_layer(s_line3_layer));
+  layer_mark_dirty((Layer*)text_layer_get_layer(s_line4_layer));
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit mark_text_as_dirty");
+}
 
 void bld_text_layer_set_text(TextLayer *t_layer, char *str) {
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter bld_text_layer_set_text");
   GSize sz;
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "bold text: %s", str);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold text: %s", str);
   text_layer_set_font(t_layer, s_bld_big_font);
   text_layer_set_text(t_layer, str);
   sz = text_layer_get_content_size(t_layer);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "bold big, sz: %d x %d", sz.h, sz.w);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold big, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
   text_layer_set_font(t_layer, s_medium_font);
   sz = text_layer_get_content_size(t_layer);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "bold medium, sz: %d x %d", sz.h, sz.w);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold medium, sz: %d x %d", sz.h, sz.w);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit bld_text_layer_set_text");
 }
 
 
 void reg_text_layer_set_text(TextLayer *t_layer, char *str) {
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter reg_text_layer_set_text");
   GSize sz;
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "text: %s", str);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "text: %s", str);
   text_layer_set_font(t_layer, s_medium_font);
   text_layer_set_text(t_layer, str);
   sz = text_layer_get_content_size(t_layer);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "medium, sz: %d x %d", sz.h, sz.w);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "medium, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
   text_layer_set_font(t_layer, s_small_font);
   sz = text_layer_get_content_size(t_layer);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "small, sz: %d x %d", sz.h, sz.w);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "small, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
   text_layer_set_font(t_layer, s_tiny_font);
   sz = text_layer_get_content_size(t_layer);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit reg_text_layer_set_text");
 }
 
 #ifdef DEBUG
@@ -104,8 +130,9 @@ void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
 }
 #endif
 void set_text_color(bool revert) {
-	int bgcol = revert ? GColorBlack : GColorClear;
-	int fgcol = revert ? GColorClear : GColorBlack;
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter set_text_color");
+	GColor bgcol = revert ? GColorBlack : GColorWhite;
+	GColor fgcol = revert ? GColorWhite : GColorBlack;
 	window_set_background_color(s_main_window, bgcol);
 	text_layer_set_background_color(s_line1_layer, bgcol);
 	text_layer_set_text_color(s_line1_layer, fgcol);
@@ -115,10 +142,12 @@ void set_text_color(bool revert) {
 	text_layer_set_text_color(s_line3_layer, fgcol);
 	text_layer_set_background_color(s_line4_layer, bgcol);
 	text_layer_set_text_color(s_line4_layer, fgcol);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit set_text_color");
 }
 
 static void show_date() {
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, "set local : %s", setlocale(LC_ALL, "fr_FR"));
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_date");
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "set local : %s", setlocale(LC_ALL, "fr_FR"));
   // Get a tm structure
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
@@ -132,7 +161,7 @@ static void show_date() {
   strftime(s_line4, LINE_LEN, "%H:%M", tick_time);
   str_lower(s_line4);
   reg_text_layer_set_text(s_line4_layer, s_line4);
-
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_date");
 }
 #ifdef DEBUG
 static void display_debug() {
@@ -158,6 +187,7 @@ static void get_config() {
 #endif
 
 void show_hours(int hour_ref) {
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_hours");
   if (hour_ref == 0 || hour_ref == 24) {
     bld_text_layer_set_text(s_line1_layer, "minuit");
     reg_text_layer_set_text(s_line2_layer, " ");
@@ -174,8 +204,10 @@ void show_hours(int hour_ref) {
     else
       reg_text_layer_set_text(s_line2_layer, "heures");
   }
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_hours");
 }
 void show_minutes_30(int min_ref, bool pile, bool need_minus) {
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_minutes_30");
   switch(min_ref) {
     case 0:
       if (pile) reg_text_layer_set_text(s_line3_layer, "pile");
@@ -206,9 +238,11 @@ void show_minutes_30(int min_ref, bool pile, bool need_minus) {
         reg_text_layer_set_text(s_line4_layer, " ");
       }  
   }
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_minutes_30");
 }
 
 void show_minutes_60(int min_ref, bool pile){
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_minutes_60");
 	if (pile) {
 		reg_text_layer_set_text(s_line3_layer, "pile");
 		reg_text_layer_set_text(s_line4_layer, " ");
@@ -218,9 +252,11 @@ void show_minutes_60(int min_ref, bool pile){
 	  reg_text_layer_set_text(s_line3_layer, french_number_60[min_ref][0]);
 	  reg_text_layer_set_text(s_line4_layer, french_number_60[min_ref][1]);
   }
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_minutes_60");
 }
 
 static void show_time() {
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_time");
   // Get a tm structure
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
@@ -247,10 +283,14 @@ static void show_time() {
 	  show_hours(hour_ref);
 	  show_minutes_60(min_ref, pile);
   }
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_time");
 }
 static void update_time() {
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter update_time");
   if (date_mode) show_date();
   else show_time();
+  mark_text_as_dirty();
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit update_time");
 }
 
 // ------------------------------------------ Manage persistent storage
@@ -259,12 +299,8 @@ static void load_persist() {
   natural_mode = persist_exists(KEY_MODE_NATURAL) ? persist_read_bool(KEY_MODE_NATURAL) : DEFAULT_MODE_NATURAL;
   auto_time_mode = persist_exists(KEY_AUTO_TIME_MODE) ? persist_read_bool(KEY_AUTO_TIME_MODE) : DEFAULT_AUTO_TIME_MODE;
   revert_color_mode = persist_exists(KEY_REVERT_COLOR_MODE) ? persist_read_bool(KEY_REVERT_COLOR_MODE) : DEFAULT_REVERT_COLOR_MODE;
-#ifdef DEBUG
-  snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-  snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-#endif
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "natural_mode: %d\n", natural_mode);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "auto_time_mode: %d\n", auto_time_mode);
 }
 
 static void save_persist() {
@@ -272,12 +308,8 @@ static void save_persist() {
   persist_write_bool(KEY_AUTO_TIME_MODE, auto_time_mode);
   persist_write_bool(KEY_MODE_ROUNDED, rounded_mode);
   persist_write_bool(KEY_REVERT_COLOR_MODE, revert_color_mode);
-#ifdef DEBUG
-  //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-  //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-#endif
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "natural_mode: %d\n", natural_mode);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "auto_time_mode: %d\n", auto_time_mode);
 }
 
 // ------------------------------------------ Callbacks ----------------------------------------
@@ -300,7 +332,7 @@ static void tap_handler(AccelAxisType axis, int32_t direction) {
 
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "Message received");
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "Message received");
   // Read first item
   Tuple *t = dict_read_first(iterator);
 
@@ -310,34 +342,22 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     switch(t->key) {
     case KEY_MODE_NATURAL:
 		natural_mode = ((bool)atoi(t->value->cstring));
-#ifdef DEBUG
-		snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", (int)atoi(t->value->cstring));
-		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-#endif
+		MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "natural_mode: %d\n", (int)atoi(t->value->cstring));
     break;
     case KEY_AUTO_TIME_MODE:
 		auto_time_mode = (bool)atoi(t->value->cstring);
-#ifdef DEBUG
-		snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", (int)atoi(t->value->cstring));
-		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-#endif
+		MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "auto_time_mode: %d\n", (int)atoi(t->value->cstring));
 	break;
     case KEY_MODE_ROUNDED:
 		rounded_mode = ((bool)atoi(t->value->cstring));
-#ifdef DEBUG
-		snprintf(debug_buffer, sizeof(debug_buffer), "rounded_mode: %d\n", (int)atoi(t->value->cstring));
-		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-#endif
+		MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "rounded_mode: %d\n", (int)atoi(t->value->cstring));
 	break;
     case KEY_REVERT_COLOR_MODE:
 		revert_color_mode = ((bool)atoi(t->value->cstring));
-#ifdef DEBUG
-		snprintf(debug_buffer, sizeof(debug_buffer), "revert_color_mode: %d\n", (int)atoi(t->value->cstring));
-		APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-#endif
+		MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "revert_color_mode: %d\n", (int)atoi(t->value->cstring));
 	break;
     default:
-      APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
+      MY_APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
       break;
     }
 
@@ -346,24 +366,21 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
   }
   set_text_color(revert_color_mode);
   update_time();
-  //snprintf(debug_buffer, sizeof(debug_buffer), "natural_mode: %d\n", natural_mode);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-  //snprintf(debug_buffer, sizeof(debug_buffer), "auto_time_mode: %d\n", auto_time_mode);
-  //APP_LOG(APP_LOG_LEVEL_DEBUG, debug_buffer);
-
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "natural_mode: %d\n", natural_mode);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "auto_time_mode: %d\n", auto_time_mode);
 }
 
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
-  APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
+  MY_APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
 }
 
 static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
-  APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
+  MY_APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
 }
 
 static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
-  APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
+  MY_APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
 }
 
 // ------------------------------------------- UI SETUP ----------------------------------------------
