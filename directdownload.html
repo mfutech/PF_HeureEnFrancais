@@ -1,44 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Direct Download</title>
+---
+layout: default
+title: Direct Download
+encoding: utf-8
+---
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <h1>L'Heure en Français</h1>
-
+<div class="well">
 	<h2>Direct Download</h2>
 	<ul>
-	
-	<li><a href="binaries/Heure_en_Français.1.1.pbw">Heure_en_Français.1.1.pbw</a>
-	<li><a href="binaries/Heure_en_Français.pbw">Heure_en_Français.pbw</a>
-	<li><a href="binaries/Heure_en_Français_v1.10.pbw">Heure_en_Français_v1.10.pbw</a>
-	<li><a href="binaries/Heure_en_Français_v1.11.pbw">Heure_en_Français_v1.11.pbw</a>
-	<li><a href="binaries/Heure_en_Français_v1.20.pbw">Heure_en_Français_v1.20.pbw</a>
-	<li><a href="binaries/Heure_en_Français_v1.30.pbw">Heure_en_Français_v1.30.pbw</a>
-	<li><a href="binaries/Heure_en_Français_v1.40.pbw">Heure_en_Français_v1.40.pbw</a>
-	<li><a href="binaries/Heure_en_Français_v1.50.pbw">Heure_en_Français_v1.50.pbw</a>
-	<li><a href="binaries/Heure_en_Français_v1.51.pbw">Heure_en_Français_v1.51.pbw</a>
-	<li><a href="binaries/Heure_en_Français_v1.51_v.pbw">Heure_en_Français_v1.51_v.pbw</a>
+		{% for bin in site.data.binaries %}
+		<li> 
+			<a href="https://github.com/mfutech/PF_HeureEnFrancais/blob/master/binaries/{{bin.name}}?raw=true">{{bin.name | replace: '_', ' ' | remove: '.pbw'}}
+			</a>
+		</li>
+		{% endfor %}
 	</ul>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-  </body>
-</html><html>
-<body>
-</body>
-</html>
+	
+</div>
