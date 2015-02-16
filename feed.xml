@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <title>L'Heure en Francais</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/theme.css" rel="stylesheet">
+    <script src="/PF_HeureEnFrancais/js/jquery.min.js"></script>
+    <script src="/PF_HeureEnFrancais/js/bootstrap.min.js"></script>
+    <link href="/PF_HeureEnFrancais/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/PF_HeureEnFrancais/css/theme.css" rel="stylesheet">
 </head>
 
 <body>
@@ -23,14 +23,14 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">L'Heure en Francais</a>
+                <a class="navbar-brand" href="/PF_HeureEnFrancais/">L'Heure en Francais</a>
               </div>
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Home</a></li>
-                    <li class="active visible-xs-block"><a href="/links.html">Links</a></li>
-                    <li class="active"><a href="/archive.html">Archive</a></li>
-                    <li class="active"><a href="/about">About</a></li>
+                    <li class="active"><a href="/PF_HeureEnFrancais/">Home</a></li>
+                    <li class="active visible-xs-block"><a href="/PF_HeureEnFrancais/links.html">Links</a></li>
+                    <li class="active"><a href="/PF_HeureEnFrancais/archive.html">Archive</a></li>
+                    <li class="active"><a href="/PF_HeureEnFrancais/about">About</a></li>
                     
                 </ul>
               </div>
@@ -50,9 +50,9 @@ A Pebble Face
     <h1>Recent Posts</h1>
     <ul>
         
-          <li><a href="/intro">L'Heure en Français</a></li>
+          <li><a href="/PF_HeureEnFrancais/intro">L'Heure en Français</a></li>
         
-          <li><a href="/about">About</a></li>
+          <li><a href="/PF_HeureEnFrancais/about">About</a></li>
         
     </ul>
 </div>
@@ -75,8 +75,8 @@ A Pebble Face
 	<channel>
 		<title>L'Heure en Francais</title>
 		<description>A Pebble Face</description>
-		<link></link>
-		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
+		<link>/PF_HeureEnFrancais</link>
+		<atom:link href="/PF_HeureEnFrancais/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
 				<title>L'Heure en Français</title>
@@ -85,8 +85,8 @@ A Pebble Face
 &lt;p&gt;At the moment, the most usefull page is the &lt;a href=&quot;/directdownload.html&quot;&gt;Direct Download&lt;/a&gt;.&lt;/p&gt;
 </description>
 				<pubDate>Sun, 15 Feb 2015 00:00:00 +0100</pubDate>
-				<link>/intro</link>
-				<guid isPermaLink="true">/intro</guid>
+				<link>/PF_HeureEnFrancais/intro</link>
+				<guid isPermaLink="true">/PF_HeureEnFrancais/intro</guid>
 			</item>
 		
 			<item>
@@ -98,8 +98,8 @@ A Pebble Face
 &lt;p&gt;by &lt;em&gt;MFU Tech&lt;/em&gt;, &lt;a href=&quot;mailto:mfutech@gmail.com&quot;&gt;mfutech@gmail.com&lt;/a&gt;&lt;/p&gt;
 </description>
 				<pubDate>Sun, 01 Feb 2015 00:00:00 +0100</pubDate>
-				<link>/about</link>
-				<guid isPermaLink="true">/about</guid>
+				<link>/PF_HeureEnFrancais/about</link>
+				<guid isPermaLink="true">/PF_HeureEnFrancais/about</guid>
 			</item>
 		
 	</channel>
