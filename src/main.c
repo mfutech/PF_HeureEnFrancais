@@ -11,11 +11,6 @@
 #define MY_APP_LOG(level, fmt, args...) 
 #endif
 
-#define COOLVETICAFONT 0
-#define KENYANCOFFEEFONT 0
-#define CONFORTAAFONT 1
-#define HARABARAFONT 0
-  
 #define TRUE 1
 #define FALSE 0
 #define KEY_MODE_ROUNDED 1
@@ -91,7 +86,7 @@ void bld_text_layer_set_text(TextLayer *t_layer, char *str) {
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold big, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
-  text_layer_set_font(t_layer, s_medium_font);
+  text_layer_set_font(t_layer, s_bld_medium_font);
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold medium, sz: %d x %d", sz.h, sz.w);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit bld_text_layer_set_text");
@@ -289,7 +284,6 @@ static void update_time() {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter update_time");
   if (date_mode) show_date();
   else show_time();
-  mark_text_as_dirty();
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit update_time");
 }
 
@@ -386,34 +380,12 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
 // ------------------------------------------- UI SETUP ----------------------------------------------
 static void main_window_load(Window *window) {
   // Load fonts
-#if COOLVETICAFONT
-  s_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_48));
-  s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_34));
-  s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_28));
-  s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_COOLVETICA_22));
-#endif
-#if KENYANCOFFEEFONT
-  s_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_KENYAN_COFFEE_48));
-  s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_KENYAN_COFFEE_34));
-  s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_KENYAN_COFFEE_28));
-  s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_KENYAN_COFFEE_24));
-#endif
-#if CONFORTAAFONT
   s_bld_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_45));
   s_bld_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_40));
   s_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_45));
   s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_30));
   s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_24));
   s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_20));
-#endif
-#if HARABARAFONT
-  s_bld_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_48));
-  s_bld_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_34));
-  s_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_48));
-  s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_34));
-  s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_24));
-  s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HARABARA_20));
-#endif
   // Create lines TextLayer
   int y = 0;
   s_line1_layer = text_layer_create(GRect(1, y, 143, 53)); y += 53; /*53*/
