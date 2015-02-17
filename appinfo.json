@@ -180,7 +180,7 @@
     "shortName": "Heure en Fran\u00e7ais",
     "uuid": "6f5e450b-c15f-4a06-8326-6ca83e2fbd11",
     "versionCode": 1,
-    "versionLabel": "1.53",
+    "versionLabel": "1.60",
     "watchapp": {
         "watchface": true
     }
