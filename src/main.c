@@ -146,11 +146,13 @@ static void show_date() {
   // Get a tm structure
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
-  bld_text_layer_set_text(s_line1_layer, "date");
-  strftime(s_line2, LINE_LEN, "%A", tick_time);
+  strftime(s_line1, LINE_LEN, "%a", tick_time);
+  str_lower(s_line1);
+  bld_text_layer_set_text(s_line1_layer, s_line1);
+  strftime(s_line2, LINE_LEN, "%d", tick_time);
   str_lower(s_line2);
   reg_text_layer_set_text(s_line2_layer, s_line2);
-  strftime(s_line3, LINE_LEN, "%d %B", tick_time);
+  strftime(s_line3, LINE_LEN, "%B", tick_time);
   str_lower(s_line3);
   reg_text_layer_set_text(s_line3_layer, s_line3);
   strftime(s_line4, LINE_LEN, "%H:%M", tick_time);
