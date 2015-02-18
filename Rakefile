@@ -6,7 +6,6 @@ task :build do |t|
 end
 
 task :publish => [:build] do |t|
-  Dir.chdir '_site'
-  %x[git commit -a -m 'update']
+  %x[git commit -a -m "update #{Time.now}"]
   %x[git push origin gh-pages]
 end
