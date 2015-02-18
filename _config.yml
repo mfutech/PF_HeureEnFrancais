@@ -35,4 +35,3 @@ redcarpet:
 exclude: ['README.md', 'LICENSE', 'Rakefile']
 
 encoding: utf-8
-excerpt_separator: ""
