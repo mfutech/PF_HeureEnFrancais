@@ -52,7 +52,7 @@ A Pebble Face
         
           <li><a href="/PF_HeureEnFrancais/intro">L'Heure en Français</a></li>
         
-          <li><a href="/PF_HeureEnFrancais/intro">L'Heure en Français</a></li>
+          <li><a href="/PF_HeureEnFrancais/about">L'Heure en Français</a></li>
         
     </ul>
 </div>
@@ -96,8 +96,8 @@ A Pebble Face
 &lt;p&gt;At the moment, the most usefull page is the &lt;a href=&quot;/directdownload.html&quot;&gt;Direct Download&lt;/a&gt;.&lt;/p&gt;
 </description>
 				<pubDate>Sun, 15 Feb 2015 00:00:00 +0100</pubDate>
-				<link>/PF_HeureEnFrancais/intro</link>
-				<guid isPermaLink="true">/PF_HeureEnFrancais/intro</guid>
+				<link>/PF_HeureEnFrancais/about</link>
+				<guid isPermaLink="true">/PF_HeureEnFrancais/about</guid>
 			</item>
 		
 	</channel>
@@ -113,7 +113,7 @@ A Pebble Face
             <p class="copyright">&copy;2015 L'Heure en Francais. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="https://github.com/scotte/jekyll-clean">Scott Emmons</a>
             under
             <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a>, 
-	    last update: 2015-02-18 23:04:40 +0100
+	    last update: 2015-02-19 00:07:28 +0100
 	    </p>
         </div>
     </div>
