@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title:  "L'Heure en Français"
 date:   2015-02-15
 categories: info
