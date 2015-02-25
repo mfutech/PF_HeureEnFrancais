@@ -50,6 +50,8 @@ A Pebble Face
     <h1>Recent Posts</h1>
     <ul>
         
+          <li><a href="/PF_HeureEnFrancais/2015/02/released-version-160">About</a></li>
+        
           <li><a href="/PF_HeureEnFrancais/intro">L'Heure en Français</a></li>
         
           <li><a href="/PF_HeureEnFrancais/about">About</a></li>
@@ -79,6 +81,19 @@ A Pebble Face
 		<atom:link href="/PF_HeureEnFrancais/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>About</title>
+				<description>&lt;h2 id=&quot;published-version-1.60&quot;&gt;published version 1.60&lt;/h2&gt;
+
+&lt;p&gt;changed 
+   * the fonts to avoid cropping of text
+   * date display to include day name (cut to 3 letters)&lt;/p&gt;
+</description>
+				<pubDate>Sun, 15 Feb 2015 00:00:00 +0100</pubDate>
+				<link>/PF_HeureEnFrancais/2015/02/released-version-160</link>
+				<guid isPermaLink="true">/PF_HeureEnFrancais/2015/02/released-version-160</guid>
+			</item>
+		
+			<item>
 				<title>L'Heure en Français</title>
 				<description>&lt;p&gt;Welcome to &lt;strong&gt;L&amp;#39;Heure en Français&lt;/strong&gt;, this a &lt;code&gt;Pebble Face&lt;/code&gt; I made as a simple exercise in programming the Pebble and as a way to display the time a way I like.&lt;/p&gt;
 
@@ -93,7 +108,7 @@ A Pebble Face
 				<title>About</title>
 				<description>&lt;p&gt;Hi,&lt;/p&gt;
 
-&lt;p&gt;this is the homepage of the Pebble Face &amp;quot;L&amp;#39;heure en Francais&amp;quot;. &lt;/p&gt;
+&lt;p&gt;this is the homepage of the Pebble Face &amp;quot;L&amp;#39;heure en Français&amp;quot;. &lt;/p&gt;
 
 &lt;p&gt;by MFU Tech, &lt;a href=&quot;mailto:mfutech@gmail.com&quot;&gt;mfutech@gmail.com&lt;/a&gt;&lt;/p&gt;
 </description>
@@ -115,7 +130,7 @@ A Pebble Face
             <p class="copyright">&copy;2015 L'Heure en Francais. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="https://github.com/scotte/jekyll-clean">Scott Emmons</a>
             under
             <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a>, 
-	    last update: 2015-02-19 01:04:36 +0100
+	    last update: 2015-02-25 09:16:12 +0100
 	    </p>
         </div>
     </div>
