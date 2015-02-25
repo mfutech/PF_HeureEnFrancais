@@ -82,13 +82,11 @@ A Pebble Face
 		
 			<item>
 				<title>published version 1.60</title>
-				<description>&lt;h2 id=&quot;published-version-1.60&quot;&gt;published version 1.60&lt;/h2&gt;
-
-&lt;p&gt;changed :&lt;/p&gt;
+				<description>&lt;p&gt;changes :&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;the fonts to avoid cropping of text&lt;/li&gt;
-&lt;li&gt;date display to include day name (cut to 3 letters)&lt;/li&gt;
+&lt;li&gt;adapted fonts to avoid text cropping&lt;/li&gt;
+&lt;li&gt;date display now includes day name (abbreviated to 3 letters)&lt;/li&gt;
 &lt;/ul&gt;
 </description>
 				<pubDate>Sun, 15 Feb 2015 00:00:00 +0100</pubDate>
@@ -133,7 +131,7 @@ A Pebble Face
             <p class="copyright">&copy;2015 L'Heure en Francais. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="https://github.com/scotte/jekyll-clean">Scott Emmons</a>
             under
             <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a>, 
-	    last update: 2015-02-25 09:20:10 +0100
+	    last update: 2015-02-25 09:21:30 +0100
 	    </p>
         </div>
     </div>
