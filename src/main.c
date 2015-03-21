@@ -35,6 +35,8 @@ static GFont s_small_font;
 static GFont s_tiny_font;
 static GFont s_bld_big_font;
 static GFont s_bld_medium_font;
+static GFont s_bld_small_font;
+static GFont s_bld_tiny_font;
 
 #define LINE_LEN 15
 static char s_line1[LINE_LEN];
@@ -81,14 +83,31 @@ void bld_text_layer_set_text(TextLayer *t_layer, char *str) {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter bld_text_layer_set_text");
   GSize sz;
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold text: %s", str);
+
+  // try big font
   text_layer_set_font(t_layer, s_bld_big_font);
   text_layer_set_text(t_layer, str);
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold big, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
+  
+  //try medium font
   text_layer_set_font(t_layer, s_bld_medium_font);
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold medium, sz: %d x %d", sz.h, sz.w);
+  if (sz.w < 120) return;
+
+  //try small font
+  text_layer_set_font(t_layer, s_bld_small_font);
+  sz = text_layer_get_content_size(t_layer);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold small, sz: %d x %d", sz.h, sz.w);
+  if (sz.w < 120) return;
+
+  //try tiny font
+  text_layer_set_font(t_layer, s_bld_tiny_font);
+  sz = text_layer_get_content_size(t_layer);
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold tiny, sz: %d x %d", sz.h, sz.w);
+
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit bld_text_layer_set_text");
 }
 
@@ -97,15 +116,21 @@ void reg_text_layer_set_text(TextLayer *t_layer, char *str) {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter reg_text_layer_set_text");
   GSize sz;
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "text: %s", str);
+
+  //try medium font
   text_layer_set_font(t_layer, s_medium_font);
   text_layer_set_text(t_layer, str);
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "medium, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
+
+  // try small font
   text_layer_set_font(t_layer, s_small_font);
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "small, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
+
+  // try tiny font
   text_layer_set_font(t_layer, s_tiny_font);
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
@@ -146,20 +171,25 @@ static void show_date() {
   // Get a tm structure
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
+  /* line 1 : week day */
   strftime(s_line1, LINE_LEN, "%a", tick_time);
   str_lower(s_line1);
-  bld_text_layer_set_text(s_line1_layer, s_line1);
+  bld_text_layer_set_text(s_line1_layer, french_wday[tick_time->tm_wday]);
+  /* line 2 : date */
   strftime(s_line2, LINE_LEN, "%d", tick_time);
   str_lower(s_line2);
   reg_text_layer_set_text(s_line2_layer, s_line2);
+  /* line 3 : month */
   strftime(s_line3, LINE_LEN, "%B", tick_time);
   str_lower(s_line3);
-  reg_text_layer_set_text(s_line3_layer, s_line3);
+  reg_text_layer_set_text(s_line3_layer, french_month[tick_time->tm_mon]);
+  /* line 4  : HH:MM */
   strftime(s_line4, LINE_LEN, "%H:%M", tick_time);
   str_lower(s_line4);
   reg_text_layer_set_text(s_line4_layer, s_line4);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_date");
 }
+
 #ifdef DEBUG
 static void display_debug() {
   // Get a tm structure
@@ -384,6 +414,8 @@ static void main_window_load(Window *window) {
   // Load fonts
   s_bld_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_45));
   s_bld_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_40));
+  s_bld_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_30));
+  s_bld_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_20));
   s_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_45));
   s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_30));
   s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_24));
@@ -430,6 +462,10 @@ static void main_window_load(Window *window) {
 
 static void main_window_unload(Window *window) {
   // Unload fonts
+  fonts_unload_custom_font(s_bld_big_font);
+  fonts_unload_custom_font(s_bld_medium_font);
+  fonts_unload_custom_font(s_bld_small_font);
+  fonts_unload_custom_font(s_bld_tiny_font);
   fonts_unload_custom_font(s_big_font);
   fonts_unload_custom_font(s_medium_font);
   fonts_unload_custom_font(s_small_font);
