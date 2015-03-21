@@ -3,6 +3,7 @@ layout: page
 title: Settings Explained
 encoding: utf-8
 permalink: /settings-explained
+categories: static
 ---
 
 A quick explanation of the various configuration parameters.
