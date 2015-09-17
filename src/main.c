@@ -151,17 +151,33 @@ void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
 #endif
 void set_text_color(bool revert) {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter set_text_color");
-	GColor bgcol = revert ? GColorBlack : GColorWhite;
-	GColor fgcol = revert ? GColorWhite : GColorBlack;
+  	GColor bgcol;
+  	GColor fgcol1;
+  	GColor fgcol2;
+  	GColor fgcol3;
+  	GColor fgcol4;
+    if (revert) {
+    	bgcol  = COLOR_FALLBACK(GColorBlack, GColorBlack);
+    	fgcol1 = COLOR_FALLBACK(GColorOrange, GColorWhite);
+    	fgcol2 = COLOR_FALLBACK(GColorYellow, GColorWhite);
+    	fgcol3 = COLOR_FALLBACK(GColorYellow, GColorWhite);
+    	fgcol4 = COLOR_FALLBACK(GColorYellow, GColorWhite);
+    } else {
+    	bgcol = COLOR_FALLBACK(GColorWhite, GColorWhite);
+    	fgcol1 = COLOR_FALLBACK(GColorRed, GColorBlack);
+    	fgcol2 = COLOR_FALLBACK(GColorBlue, GColorBlack);
+    	fgcol3 = COLOR_FALLBACK(GColorBlue, GColorBlack);
+    	fgcol4 = COLOR_FALLBACK(GColorBlue, GColorBlack);
+    }
 	window_set_background_color(s_main_window, bgcol);
 	text_layer_set_background_color(s_line1_layer, bgcol);
-	text_layer_set_text_color(s_line1_layer, fgcol);
+	text_layer_set_text_color(s_line1_layer, fgcol1);
 	text_layer_set_background_color(s_line2_layer, bgcol);
-	text_layer_set_text_color(s_line2_layer, fgcol);
+	text_layer_set_text_color(s_line2_layer, fgcol2);
 	text_layer_set_background_color(s_line3_layer, bgcol);
-	text_layer_set_text_color(s_line3_layer, fgcol);
+	text_layer_set_text_color(s_line3_layer, fgcol3);
 	text_layer_set_background_color(s_line4_layer, bgcol);
-	text_layer_set_text_color(s_line4_layer, fgcol);
+	text_layer_set_text_color(s_line4_layer, fgcol4);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit set_text_color");
 }
 
