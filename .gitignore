@@ -1,2 +1,7 @@
 .sass-cache
 _site/*
+build/*
+src/*
+.cproject
+.project
+*.1

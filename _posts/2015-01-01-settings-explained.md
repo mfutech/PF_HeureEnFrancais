@@ -6,7 +6,7 @@ permalink: /settings-explained
 categories: static
 ---
 
-A quick explanation of the various configuration parameters.
+A quick explanation on the various configuration parameters.
 The bellow text is in french, assuming you have a good level of french to use this face.
 
 (and because it is easier for me :-))
@@ -15,7 +15,7 @@ The bellow text is in french, assuming you have a good level of french to use th
 
 Ce paramètre défini comment sont affichées les minutes.
 
-* __Arrondi__: arrondie au 5 minutes les plus proches
+* __Arrondi__: arrondies au 5 minutes les plus proches
 * __Précis__ : l'heure est données à la minute
 
 ### Retour à l'heure
