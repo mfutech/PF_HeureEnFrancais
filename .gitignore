@@ -2,3 +2,5 @@ src/tests/*.exe
 build/*
 .lock-waf_linux2_build
 *.1
+.project
+.cproject
