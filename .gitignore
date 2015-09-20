@@ -4,3 +4,5 @@ build/*
 *.1
 .project
 .cproject
+.sass-cache/*
+_site/*
