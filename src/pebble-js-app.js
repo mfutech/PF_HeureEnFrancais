@@ -10,7 +10,7 @@ Pebble.addEventListener('ready', function(e) {
 });
 
 Pebble.addEventListener('appmessage', function(e) {
-  key = e.payload.action;
+  var key = e.payload.action;
   console.log('AppMessage received: ' + e.payload.action);
   if (typeof(key) != 'undefined') {
     var settings = localStorage.getItem(setPebbleToken);
@@ -31,7 +31,7 @@ Pebble.addEventListener('appmessage', function(e) {
           } catch (e) {
             console.log('Exception Raised');
           }
-    }
+    };
     request.send(null);
   }
 });
