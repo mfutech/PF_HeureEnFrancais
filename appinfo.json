@@ -15,6 +15,42 @@
         "media": [
             {
                 "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Bold.ttf",
+                "name": "FONT_CONFORTAA_BOLD_25",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Bold.ttf",
+                "name": "FONT_CONFORTAA_BOLD_30",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Bold.ttf",
+                "name": "FONT_CONFORTAA_BOLD_35",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Bold.ttf",
+                "name": "FONT_CONFORTAA_BOLD_40",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Bold.ttf",
+                "name": "FONT_CONFORTAA_BOLD_45",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                "file": "fonts/Comfortaa-Bold.ttf",
+                "name": "FONT_CONFORTAA_BOLD_48",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
                 "file": "fonts/Comfortaa-Regular.ttf",
                 "name": "FONT_CONFORTAA_20",
                 "type": "font"
@@ -35,36 +71,6 @@
                 "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
                 "file": "fonts/Comfortaa-Regular.ttf",
                 "name": "FONT_CONFORTAA_40",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Bold.ttf",
-                "name": "FONT_CONFORTAA_BOLD_25",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Bold.ttf",
-                "name": "FONT_CONFORTAA_BOLD_30",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Bold.ttf",
-                "name": "FONT_CONFORTAA_BOLD_45",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Bold.ttf",
-                "name": "FONT_CONFORTAA_BOLD_40",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                "file": "fonts/Comfortaa-Bold.ttf",
-                "name": "FONT_CONFORTAA_BOLD_48",
                 "type": "font"
             }
         ]
