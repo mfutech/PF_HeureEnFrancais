@@ -1,0 +1,96 @@
+{
+    "author": "mfu tech",
+    "dependencies": {},
+    "keywords": [],
+    "name": "heure-en-fran-ais",
+    "pebble": {
+        "capabilities": [
+            "configurable",
+            "health"
+        ],
+        "displayName": "L'Heure en Fran\u00e7ais",
+        "enableMultiJS": false,
+        "messageKeys": {
+            "KEY_AUTO_TIME_MODE": 2,
+            "KEY_MODE_NATURAL": 3,
+            "KEY_MODE_ROUNDED": 1,
+            "KEY_REVERT_COLOR_MODE": 4
+        },
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                    "file": "fonts/Comfortaa-Bold.ttf",
+                    "name": "FONT_CONFORTAA_BOLD_25",
+                    "type": "font"
+                },
+                {
+                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                    "file": "fonts/Comfortaa-Bold.ttf",
+                    "name": "FONT_CONFORTAA_BOLD_30",
+                    "type": "font"
+                },
+                {
+                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                    "file": "fonts/Comfortaa-Bold.ttf",
+                    "name": "FONT_CONFORTAA_BOLD_35",
+                    "type": "font"
+                },
+                {
+                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                    "file": "fonts/Comfortaa-Bold.ttf",
+                    "name": "FONT_CONFORTAA_BOLD_40",
+                    "type": "font"
+                },
+                {
+                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                    "file": "fonts/Comfortaa-Bold.ttf",
+                    "name": "FONT_CONFORTAA_BOLD_45",
+                    "type": "font"
+                },
+                {
+                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                    "file": "fonts/Comfortaa-Bold.ttf",
+                    "name": "FONT_CONFORTAA_BOLD_48",
+                    "type": "font"
+                },
+                {
+                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                    "file": "fonts/Comfortaa-Regular.ttf",
+                    "name": "FONT_CONFORTAA_20",
+                    "type": "font"
+                },
+                {
+                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                    "file": "fonts/Comfortaa-Regular.ttf",
+                    "name": "FONT_CONFORTAA_24",
+                    "type": "font"
+                },
+                {
+                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                    "file": "fonts/Comfortaa-Regular.ttf",
+                    "name": "FONT_CONFORTAA_30",
+                    "type": "font"
+                },
+                {
+                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
+                    "file": "fonts/Comfortaa-Regular.ttf",
+                    "name": "FONT_CONFORTAA_40",
+                    "type": "font"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk"
+        ],
+        "uuid": "6f5e450b-c15f-4a06-8326-6ca83e2fbd11",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.81.0"
+}
