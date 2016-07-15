@@ -5,3 +5,5 @@ src/*
 .cproject
 .project
 *.1
+*~
+.lock-waf_linux2_build
