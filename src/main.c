@@ -436,30 +436,50 @@ static void main_window_load(Window *window) {
   s_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_30));
   s_small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_24));
   s_tiny_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_20));
+
   // Create lines TextLayer
-  int y = 0;
+  int y;
+#if defined(PBL_RECT)
+  y = 0;
   s_line1_layer = text_layer_create(GRect(1, y, 143, 53)); y += 53; /*53*/
+  s_line2_layer = text_layer_create(GRect(0, y, 143, 37)); y += 37; /*90*/
+  s_line3_layer = text_layer_create(GRect(2, y, 143, 37)); y += 37; /*127*/
+  s_line4_layer = text_layer_create(GRect(0, y, 143, 37)); /*164*/
+#elif defined(PBL_ROUND)
+  y = 6;
+  s_line1_layer = text_layer_create(GRect(0, y, 180, 53)); y += 53; /*53*/
+  s_line2_layer = text_layer_create(GRect(0, y, 180, 37)); y += 37; /*90*/
+  s_line3_layer = text_layer_create(GRect(0, y, 180, 37)); y += 37; /*127*/
+  s_line4_layer = text_layer_create(GRect(0, y, 180, 37)); /*164*/
+#endif
+
+  // set alignment
+#if defined(PBL_RECT) 
   text_layer_set_text_alignment(s_line1_layer, GTextAlignmentLeft);
+  text_layer_set_text_alignment(s_line2_layer, GTextAlignmentRight);
+  text_layer_set_text_alignment(s_line3_layer, GTextAlignmentLeft);
+  text_layer_set_text_alignment(s_line4_layer, GTextAlignmentRight);
+#elif defined(PBL_ROUND)
+  text_layer_set_text_alignment(s_line1_layer, GTextAlignmentCenter);
+  text_layer_set_text_alignment(s_line2_layer, GTextAlignmentCenter);
+  text_layer_set_text_alignment(s_line3_layer, GTextAlignmentCenter);
+  text_layer_set_text_alignment(s_line4_layer, GTextAlignmentCenter);
+#endif
+  
+  // set background and text colors
   text_layer_set_background_color(s_line1_layer, GColorClear);
   text_layer_set_text_color(s_line1_layer, GColorBlack);
-  text_layer_set_text(s_line1_layer, "01:00");
-
-  s_line2_layer = text_layer_create(GRect(0, y, 143, 37)); y += 37; /*90*/
-  text_layer_set_text_alignment(s_line2_layer, GTextAlignmentRight);
   text_layer_set_background_color(s_line2_layer, GColorClear);
   text_layer_set_text_color(s_line2_layer, GColorBlack);
-  text_layer_set_text(s_line2_layer, "02:00");
-
-  s_line3_layer = text_layer_create(GRect(2, y, 143, 37)); y += 37; /*127*/
-  text_layer_set_text_alignment(s_line3_layer, GTextAlignmentLeft);
   text_layer_set_background_color(s_line3_layer, GColorClear);
   text_layer_set_text_color(s_line3_layer, GColorBlack);
-  text_layer_set_text(s_line3_layer, "03:00");
-
-  s_line4_layer = text_layer_create(GRect(0, y, 143, 37)); /*164*/
-  text_layer_set_text_alignment(s_line4_layer, GTextAlignmentRight);
   text_layer_set_background_color(s_line4_layer, GColorClear);
   text_layer_set_text_color(s_line4_layer, GColorBlack);
+
+  // put some default text
+  text_layer_set_text(s_line1_layer, "01:00");
+  text_layer_set_text(s_line2_layer, "02:00");
+  text_layer_set_text(s_line3_layer, "03:00");
   text_layer_set_text(s_line4_layer, "04:00");
 
   //Apply to TextLayer
