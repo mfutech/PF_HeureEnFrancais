@@ -6,5 +6,5 @@ build/*
 .cproject
 .sass-cache/*
 _site/*
-
+*~
 node_modules/
