@@ -1,9 +1,19 @@
+/***
+ *** main.c
+ ***
+ ***
+ *** 2015 MFU Tech 
+ *** source code: https://github.com/mfutech/PF_HeureEnFrancais
+ *** website:     http://mfutech.github.io/PF_HeureEnFrancais/
+ ***/
+
 #include <pebble.h>
 #include <ctype.h>
 #include <french_number.h>
-  
+
 #define xxDEBUG
 
+/*_ --------------- Macros ----------------------- */
 #ifdef DEBUG
 #define MY_APP_LOG(level, fmt, args...)                                \
   app_log(level, __FILE_NAME__, __LINE__, fmt, ## args)
@@ -50,6 +60,8 @@ static bool natural_mode;
 static bool auto_time_mode;
 static bool revert_color_mode;
 
+/*_ --------------- utility functions -------------*/
+
 void str_lower(char *str){
   int i = 0;
   while(str[i]){
@@ -59,7 +71,18 @@ void str_lower(char *str){
 }
 
 int round_to_5(int min) {
-	return ((min+2)/5)*5;
+  return ((min+2)/5)*5;
+}
+
+/*_ --------------- text management -------------- */
+
+static void verticalAlignTextLayer(TextLayer *layer) {
+  GRect frame = layer_get_frame(text_layer_get_layer(layer));
+  GSize content = text_layer_get_content_size(layer);
+  layer_set_frame(text_layer_get_layer(layer),
+		  GRect(frame.origin.x,
+			frame.origin.y + (frame.size.h - content.h - 5) / 2, 
+			frame.size.w, content.h));
 }
 
 void mark_text_as_dirty() {
@@ -93,6 +116,7 @@ void bld_text_layer_set_text(TextLayer *t_layer, char *str) {
   
   //try medium font
   text_layer_set_font(t_layer, s_bld_medium_font);
+
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold medium, sz: %d x %d", sz.h, sz.w);
   if (sz.w < 120) return;
@@ -108,6 +132,9 @@ void bld_text_layer_set_text(TextLayer *t_layer, char *str) {
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "bold tiny, sz: %d x %d", sz.h, sz.w);
 
+  //adjust verticaly
+  //verticalAlignTextLayer(t_layer);
+  
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit bld_text_layer_set_text");
 }
 
@@ -134,8 +161,14 @@ void reg_text_layer_set_text(TextLayer *t_layer, char *str) {
   text_layer_set_font(t_layer, s_tiny_font);
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
+
+  //adjust verticaly
+  verticalAlignTextLayer(t_layer);
+
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit reg_text_layer_set_text");
 }
+
+
 
 #ifdef DEBUG
 void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
@@ -149,37 +182,41 @@ void __OLD__my_text_layer_set_text(TextLayer *t_layer, char *str) {
   text_layer_set_text(t_layer, str);
 }
 #endif
+
 void set_text_color(bool revert) {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter set_text_color");
-  	GColor bgcol;
-  	GColor fgcol1;
-  	GColor fgcol2;
-  	GColor fgcol3;
-  	GColor fgcol4;
-    if (revert) {
-    	bgcol  = COLOR_FALLBACK(GColorBlack, GColorBlack);
-    	fgcol1 = COLOR_FALLBACK(GColorOrange, GColorWhite);
-    	fgcol2 = COLOR_FALLBACK(GColorYellow, GColorWhite);
-    	fgcol3 = COLOR_FALLBACK(GColorYellow, GColorWhite);
-    	fgcol4 = COLOR_FALLBACK(GColorYellow, GColorWhite);
-    } else {
-    	bgcol = COLOR_FALLBACK(GColorWhite, GColorWhite);
-    	fgcol1 = COLOR_FALLBACK(GColorRed, GColorBlack);
-    	fgcol2 = COLOR_FALLBACK(GColorBlue, GColorBlack);
-    	fgcol3 = COLOR_FALLBACK(GColorBlue, GColorBlack);
-    	fgcol4 = COLOR_FALLBACK(GColorBlue, GColorBlack);
-    }
-	window_set_background_color(s_main_window, bgcol);
-	text_layer_set_background_color(s_line1_layer, bgcol);
-	text_layer_set_text_color(s_line1_layer, fgcol1);
-	text_layer_set_background_color(s_line2_layer, bgcol);
-	text_layer_set_text_color(s_line2_layer, fgcol2);
-	text_layer_set_background_color(s_line3_layer, bgcol);
-	text_layer_set_text_color(s_line3_layer, fgcol3);
-	text_layer_set_background_color(s_line4_layer, bgcol);
-	text_layer_set_text_color(s_line4_layer, fgcol4);
+  GColor bgcol;
+  GColor fgcol1;
+  GColor fgcol2;
+  GColor fgcol3;
+  GColor fgcol4;
+  if (revert) {
+    bgcol  = COLOR_FALLBACK(GColorBlack, GColorBlack);
+    fgcol1 = COLOR_FALLBACK(GColorOrange, GColorWhite);
+    fgcol2 = COLOR_FALLBACK(GColorYellow, GColorWhite);
+    fgcol3 = COLOR_FALLBACK(GColorYellow, GColorWhite);
+    fgcol4 = COLOR_FALLBACK(GColorYellow, GColorWhite);
+  } else {
+    bgcol = COLOR_FALLBACK(GColorWhite, GColorWhite);
+    fgcol1 = COLOR_FALLBACK(GColorRed, GColorBlack);
+    fgcol2 = COLOR_FALLBACK(GColorBlue, GColorBlack);
+    fgcol3 = COLOR_FALLBACK(GColorBlue, GColorBlack);
+    fgcol4 = COLOR_FALLBACK(GColorBlue, GColorBlack);
+  }
+  window_set_background_color(s_main_window, bgcol);
+  text_layer_set_background_color(s_line1_layer, bgcol);
+  text_layer_set_text_color(s_line1_layer, fgcol1);
+  text_layer_set_background_color(s_line2_layer, bgcol);
+  text_layer_set_text_color(s_line2_layer, fgcol2);
+  text_layer_set_background_color(s_line3_layer, bgcol);
+  text_layer_set_text_color(s_line3_layer, fgcol3);
+  text_layer_set_background_color(s_line4_layer, bgcol);
+  text_layer_set_text_color(s_line4_layer, fgcol4);
+
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit set_text_color");
 }
+
+/*_ --------------- Date & Time function --------- */
 
 static void show_date() {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_date");
@@ -206,6 +243,8 @@ static void show_date() {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_date");
 }
 
+/*_ --------------- Debug stuff -------------------*/
+
 #ifdef DEBUG
 static void display_debug() {
   // Get a tm structure
@@ -215,6 +254,7 @@ static void display_debug() {
   reg_text_layer_set_text(s_line4_layer, "vingtxneuf");
 }
 #endif
+
 #if 0
 static void get_config() {
   // Begin dictionary
@@ -228,6 +268,9 @@ static void get_config() {
   app_message_outbox_send();
 }
 #endif
+
+/*_ --------------- Date & Time  ------------------*/
+
 
 void show_hours(int hour_ref) {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_hours");
@@ -286,14 +329,14 @@ void show_minutes_30(int min_ref, bool pile, bool need_minus) {
 
 void show_minutes_60(int min_ref, bool pile){
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_minutes_60");
-	if (pile) {
-		reg_text_layer_set_text(s_line3_layer, "pile");
-		reg_text_layer_set_text(s_line4_layer, " ");
-		return;
-	}
+  if (pile) {
+    reg_text_layer_set_text(s_line3_layer, "pile");
+    reg_text_layer_set_text(s_line4_layer, " ");
+    return;
+  }
   else {
-	  reg_text_layer_set_text(s_line3_layer, french_number_60[min_ref][0]);
-	  reg_text_layer_set_text(s_line4_layer, french_number_60[min_ref][1]);
+    reg_text_layer_set_text(s_line3_layer, french_number_60[min_ref][0]);
+    reg_text_layer_set_text(s_line4_layer, french_number_60[min_ref][1]);
   }
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_minutes_60");
 }
@@ -314,20 +357,21 @@ static void show_time() {
   }  
 
   if (natural_mode) { 
-	  if (min_ref > 30) {
-		  min_ref = 60 - min_ref;
-		  hour_ref += 1;
-		  need_minus = true;
-	  }
-	  show_hours(hour_ref);
-	  show_minutes_30(min_ref, pile, need_minus);
+    if (min_ref > 30) {
+      min_ref = 60 - min_ref;
+      hour_ref += 1;
+      need_minus = true;
+    }
+    show_hours(hour_ref);
+    show_minutes_30(min_ref, pile, need_minus);
   }
   else {
-	  show_hours(hour_ref);
-	  show_minutes_60(min_ref, pile);
+    show_hours(hour_ref);
+    show_minutes_60(min_ref, pile);
   }
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_time");
 }
+
 static void update_time() {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter update_time");
   if (date_mode) show_date();
@@ -335,7 +379,8 @@ static void update_time() {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit update_time");
 }
 
-// ------------------------------------------ Manage persistent storage
+/*_  -------------- Manage persistent storage ---------------*/
+
 static void load_persist() {
   rounded_mode = persist_exists(KEY_MODE_ROUNDED) ? persist_read_bool(KEY_MODE_ROUNDED) : DEFAULT_MODE_ROUNDED;
   natural_mode = persist_exists(KEY_MODE_NATURAL) ? persist_read_bool(KEY_MODE_NATURAL) : DEFAULT_MODE_NATURAL;
@@ -354,23 +399,23 @@ static void save_persist() {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "auto_time_mode: %d\n", auto_time_mode);
 }
 
-// ------------------------------------------ Callbacks ----------------------------------------
+/*_ --------------- Callbacks -------------------- */
 
-// ------------------------------------------ Callbacks Time ----------------------------------------
+/*_  -------------- Callbacks Time --------------- */
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   if (auto_time_mode) date_mode = 0;
   update_time();
 }
 
-// ------------------------------------------ Callbacks Accellerometer ----------------------------------------
+/*_  -------------- Callbacks Accellerometer ----- */
 
 static void tap_handler(AccelAxisType axis, int32_t direction) {
   date_mode = ! date_mode;
   update_time();
 }
 
-// ------------------------------------------ Callbacks Messages ----------------------------------------
+/*_  -------------- Callbacks Messages ----------- */
 
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
@@ -425,7 +470,8 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
   MY_APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
 }
 
-// ------------------------------------------- UI SETUP ----------------------------------------------
+/*_ --------------- UI SETUP --------------------- */
+
 static void main_window_load(Window *window) {
   // Load fonts
   s_bld_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_45));
@@ -514,6 +560,8 @@ static void main_window_unload(Window *window) {
   text_layer_destroy(s_line4_layer);
 }
 
+/*_ --------------- MAIN --------------------------*/
+
 static void init() {
   setlocale(LC_ALL, "fr_FR");
   
@@ -562,3 +610,13 @@ int main(void) {
   app_event_loop();
   deinit();
 }
+
+/*_ --------------- The END -----------------------*/
+
+/* 
+ * Local Variables:
+ * mode: c
+ * eval: (allout-minor-mode)
+ * End:
+*/
+
