@@ -73,7 +73,7 @@ static char *french_number_60[60][2] = {
 /* 32 */    { "trente", "deux"},
 /* 33 */    { "trente", "trois"},
 /* 34 */    { "trente", "quatre"},
-/* 35 */    { "trente", "cing"},
+/* 35 */    { "trente", "cinq"},
 /* 36 */    { "trente", "six"},
 /* 37 */    { "trente", "sept"},
 /* 38 */    { "trente", "huit"},
