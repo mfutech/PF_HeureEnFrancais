@@ -1,104 +1,105 @@
 {
-    "version": "1.90.0",
-    "author": "mfu tech",
-    "private": true,
-    "dependencies": {
-	"pebble-owm-weather": "^1.0.0"
+  "version": "1.90.0",
+  "author": "mfu tech",
+  "private": true,
+  "dependencies": {
+    "pebble-clay": "^1.0.3",
+    "pebble-owm-weather": "^1.0.0"
+  },
+  "keywords": [
+    "pebble-app",
+    "francais"
+  ],
+  "pebble": {
+    "sdkVersion": "3",
+    "resources": {
+      "media": [
+        {
+          "characterRegex": "[-0-9a-z:. éû ]",
+          "file": "fonts/Comfortaa-Bold.ttf",
+          "name": "FONT_CONFORTAA_BOLD_25",
+          "type": "font"
+        },
+        {
+          "characterRegex": "[-0-9a-z:. éû ]",
+          "file": "fonts/Comfortaa-Bold.ttf",
+          "name": "FONT_CONFORTAA_BOLD_30",
+          "type": "font"
+        },
+        {
+          "characterRegex": "[-0-9a-z:. éû ]",
+          "file": "fonts/Comfortaa-Bold.ttf",
+          "name": "FONT_CONFORTAA_BOLD_35",
+          "type": "font"
+        },
+        {
+          "characterRegex": "[-0-9a-z:. éû ]",
+          "file": "fonts/Comfortaa-Bold.ttf",
+          "name": "FONT_CONFORTAA_BOLD_40",
+          "type": "font"
+        },
+        {
+          "characterRegex": "[-0-9a-z:. éû ]",
+          "file": "fonts/Comfortaa-Bold.ttf",
+          "name": "FONT_CONFORTAA_BOLD_45",
+          "type": "font"
+        },
+        {
+          "characterRegex": "[-0-9a-z:. éû ]",
+          "file": "fonts/Comfortaa-Bold.ttf",
+          "name": "FONT_CONFORTAA_BOLD_48",
+          "type": "font"
+        },
+        {
+          "characterRegex": "[-0-9a-z:. éû ]",
+          "file": "fonts/Comfortaa-Regular.ttf",
+          "name": "FONT_CONFORTAA_20",
+          "type": "font"
+        },
+        {
+          "characterRegex": "[-0-9a-z:. éû ]",
+          "file": "fonts/Comfortaa-Regular.ttf",
+          "name": "FONT_CONFORTAA_24",
+          "type": "font"
+        },
+        {
+          "characterRegex": "[-0-9a-z:. éû ]",
+          "file": "fonts/Comfortaa-Regular.ttf",
+          "name": "FONT_CONFORTAA_30",
+          "type": "font"
+        },
+        {
+          "characterRegex": "[-0-9a-z:. éû ]",
+          "file": "fonts/Comfortaa-Regular.ttf",
+          "name": "FONT_CONFORTAA_40",
+          "type": "font"
+        }
+      ]
     },
-    "keywords": [
-	"pebble-app",
-	"francais"
+    "projectType": "native",
+    "uuid": "6f5e450b-c15f-4a06-8326-6ca83e2fbd11",
+    "messageKeys": {
+      "KEY_AUTO_TIME_MODE": 2,
+      "KEY_MODE_ROUNDED": 1,
+      "KEY_REVERT_COLOR_MODE": 4,
+      "KEY_MODE_NATURAL": 3
+    },
+    "enableMultiJS": false,
+    "displayName": "L'Heure en Français",
+    "watchapp": {
+      "onlyShownOnCommunication": false,
+      "hiddenApp": false,
+      "watchface": true
+    },
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk"
     ],
-    "pebble": {
-	"sdkVersion": "3",
-	"resources": {
-            "media": [
-                {
-                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                    "file": "fonts/Comfortaa-Bold.ttf",
-                    "name": "FONT_CONFORTAA_BOLD_25",
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                    "file": "fonts/Comfortaa-Bold.ttf",
-                    "name": "FONT_CONFORTAA_BOLD_30",
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                    "file": "fonts/Comfortaa-Bold.ttf",
-                    "name": "FONT_CONFORTAA_BOLD_35",
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                    "file": "fonts/Comfortaa-Bold.ttf",
-                    "name": "FONT_CONFORTAA_BOLD_40",
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                    "file": "fonts/Comfortaa-Bold.ttf",
-                    "name": "FONT_CONFORTAA_BOLD_45",
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                    "file": "fonts/Comfortaa-Bold.ttf",
-                    "name": "FONT_CONFORTAA_BOLD_48",
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                    "file": "fonts/Comfortaa-Regular.ttf",
-                    "name": "FONT_CONFORTAA_20",
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                    "file": "fonts/Comfortaa-Regular.ttf",
-                    "name": "FONT_CONFORTAA_24",
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                    "file": "fonts/Comfortaa-Regular.ttf",
-                    "name": "FONT_CONFORTAA_30",
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[-0-9a-z:. \u00e9\u00fb ]",
-                    "file": "fonts/Comfortaa-Regular.ttf",
-                    "name": "FONT_CONFORTAA_40",
-                    "type": "font"
-                }
-            ]
-	},
-	"projectType": "native",
-	"uuid": "6f5e450b-c15f-4a06-8326-6ca83e2fbd11",
-	"messageKeys": {
-	    "KEY_AUTO_TIME_MODE": 2,
-	    "KEY_MODE_ROUNDED": 1,
-	    "KEY_REVERT_COLOR_MODE": 4,
-	    "KEY_MODE_NATURAL": 3
-	},
-	"enableMultiJS": false,
-        "displayName": "L'Heure en Fran\u00e7ais",
-	"watchapp": {
-	    "onlyShownOnCommunication": false,
-	    "hiddenApp": false,
-	    "watchface": true
-	},
-	"targetPlatforms": [
-	    "aplite",
-	    "basalt",
-	    "chalk"
-	],
-	"capabilities": [
-	    "configurable",
-	    "health"
-	]
-    },
-    "name": "heure-en-francais"
+    "capabilities": [
+      "configurable",
+      "health"
+    ]
+  },
+  "name": "heure-en-francais"
 }
