@@ -7,9 +7,9 @@
 
 #include <pebble.h>
 #include <ctype.h>
-#include "settings.h"
-#include "logging.h"
-#include "main.h"
+#include <settings.h>
+#include <logging.h>
+#include <main.h>
 
 
 /*_  -------------- Manage persistent storage ---------------*/
