@@ -12,8 +12,8 @@ module.exports = [ {
 	 */
 	{
 		"type" : "toggle",
-		"messageKey" : "RoudedTime",
-		"label" : "Format Heure Arrondi",
+		"messageKey" : "NaturalMode",
+		"label" : "Arondir les minutes",
 		"defaultValue" : false
 	}, {
 		"type" : "toggle",
@@ -42,8 +42,13 @@ module.exports = [ {
 			"label" : "Noir",
 			"value" : "1"
 		} ]
+	}, {
+		"type" : "toggle",
+		"messageKey" : "TwentyFourMode",
+		"label" : "Mode 24h",
+		"defaultValue": false
 	} ]
 }, {
 	"type" : "submit",
-	"defaultValue" : "Save Settings"
+	"defaultValue" : "Sauvegarder"
 } ];

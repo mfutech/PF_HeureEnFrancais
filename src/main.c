@@ -9,29 +9,14 @@
 
 #include <pebble.h>
 #include <ctype.h>
+#include <logging.h>
 #include <french_number.h>
+#include <main.h>
+#include <settings.h>
 
 #define xxDEBUG
 
 /*_ --------------- Macros ----------------------- */
-#ifdef DEBUG
-#define MY_APP_LOG(level, fmt, args...)                                \
-  app_log(level, __FILE_NAME__, __LINE__, fmt, ## args)
-#else
-#define MY_APP_LOG(level, fmt, args...) 
-#endif
-
-#define TRUE 1
-#define FALSE 0
-#define KEY_MODE_ROUNDED 1
-#define DEFAULT_MODE_ROUNDED 0
-#define KEY_MODE_NATURAL 3
-#define DEFAULT_MODE_NATURAL 0
-#define KEY_AUTO_TIME_MODE 2
-#define DEFAULT_AUTO_TIME_MODE 1
-#define KEY_REVERT_COLOR_MODE 4
-#define DEFAULT_REVERT_COLOR_MODE 1
-
 
 static Window *s_main_window;
 static TextLayer *s_line1_layer;
@@ -54,12 +39,6 @@ static char s_line2[LINE_LEN];
 static char s_line3[LINE_LEN];
 static char s_line4[LINE_LEN];
 
-static bool date_mode = 0;
-static bool rounded_mode;
-static bool natural_mode;
-static bool auto_time_mode;
-static bool revert_color_mode;
-
 /*_ --------------- utility functions -------------*/
 
 void str_lower(char *str){
@@ -76,7 +55,7 @@ int round_to_5(int min) {
 
 /*_ --------------- text management -------------- */
 
-static void verticalAlignTextLayer(TextLayer *layer) {
+ void verticalAlignTextLayer(TextLayer *layer) {
   GRect frame = layer_get_frame(text_layer_get_layer(layer));
   GSize content = text_layer_get_content_size(layer);
   layer_set_frame(text_layer_get_layer(layer),
@@ -218,7 +197,7 @@ void set_text_color(bool revert) {
 
 /*_ --------------- Date & Time function --------- */
 
-static void show_date() {
+ void show_date() {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_date");
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "set local : %s", setlocale(LC_ALL, "fr_FR"));
   // Get a tm structure
@@ -246,7 +225,7 @@ static void show_date() {
 /*_ --------------- Debug stuff -------------------*/
 
 #ifdef DEBUG
-static void display_debug() {
+ void display_debug() {
   // Get a tm structure
   bld_text_layer_set_text(s_line1_layer, "quatre");
   reg_text_layer_set_text(s_line2_layer, "dix-huit");
@@ -256,7 +235,7 @@ static void display_debug() {
 #endif
 
 #if 0
-static void get_config() {
+ void get_config() {
   // Begin dictionary
   DictionaryIterator *iter;
   app_message_outbox_begin(&iter);
@@ -341,7 +320,7 @@ void show_minutes_60(int min_ref, bool pile){
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_minutes_60");
 }
 
-static void show_time() {
+ void show_time() {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_time");
   // Get a tm structure
   time_t temp = time(NULL); 
@@ -372,107 +351,34 @@ static void show_time() {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_time");
 }
 
-static void update_time() {
+ void update_time() {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter update_time");
   if (date_mode) show_date();
   else show_time();
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit update_time");
 }
 
-/*_  -------------- Manage persistent storage ---------------*/
-
-static void load_persist() {
-  rounded_mode = persist_exists(KEY_MODE_ROUNDED) ? persist_read_bool(KEY_MODE_ROUNDED) : DEFAULT_MODE_ROUNDED;
-  natural_mode = persist_exists(KEY_MODE_NATURAL) ? persist_read_bool(KEY_MODE_NATURAL) : DEFAULT_MODE_NATURAL;
-  auto_time_mode = persist_exists(KEY_AUTO_TIME_MODE) ? persist_read_bool(KEY_AUTO_TIME_MODE) : DEFAULT_AUTO_TIME_MODE;
-  revert_color_mode = persist_exists(KEY_REVERT_COLOR_MODE) ? persist_read_bool(KEY_REVERT_COLOR_MODE) : DEFAULT_REVERT_COLOR_MODE;
-  MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "natural_mode: %d\n", natural_mode);
-  MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "auto_time_mode: %d\n", auto_time_mode);
-}
-
-static void save_persist() {
-  persist_write_bool(KEY_MODE_NATURAL, natural_mode);
-  persist_write_bool(KEY_AUTO_TIME_MODE, auto_time_mode);
-  persist_write_bool(KEY_MODE_ROUNDED, rounded_mode);
-  persist_write_bool(KEY_REVERT_COLOR_MODE, revert_color_mode);
-  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "natural_mode: %d\n", natural_mode);
-  MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "auto_time_mode: %d\n", auto_time_mode);
-}
 
 /*_ --------------- Callbacks -------------------- */
 
 /*_  -------------- Callbacks Time --------------- */
 
-static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
+ void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   if (auto_time_mode) date_mode = 0;
   update_time();
 }
 
 /*_  -------------- Callbacks Accellerometer ----- */
 
-static void tap_handler(AccelAxisType axis, int32_t direction) {
+ void tap_handler(AccelAxisType axis, int32_t direction) {
   date_mode = ! date_mode;
   update_time();
 }
 
-/*_  -------------- Callbacks Messages ----------- */
-
-
-static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
-  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "Message received");
-  // Read first item
-  Tuple *t = dict_read_first(iterator);
-
-  // For all items
-  while(t != NULL) {
-    // Which key was received?
-    switch(t->key) {
-    case KEY_MODE_NATURAL:
-		natural_mode = ((bool)atoi(t->value->cstring));
-		MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "natural_mode: %d\n", (int)atoi(t->value->cstring));
-    break;
-    case KEY_AUTO_TIME_MODE:
-		auto_time_mode = (bool)atoi(t->value->cstring);
-		MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "auto_time_mode: %d\n", (int)atoi(t->value->cstring));
-	break;
-    case KEY_MODE_ROUNDED:
-		rounded_mode = ((bool)atoi(t->value->cstring));
-		MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "rounded_mode: %d\n", (int)atoi(t->value->cstring));
-	break;
-    case KEY_REVERT_COLOR_MODE:
-		revert_color_mode = ((bool)atoi(t->value->cstring));
-		MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "revert_color_mode: %d\n", (int)atoi(t->value->cstring));
-	break;
-    default:
-      MY_APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
-      break;
-    }
-
-    // Look for next item
-    t = dict_read_next(iterator);
-  }
-  set_text_color(revert_color_mode);
-  update_time();
-  MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "natural_mode: %d\n", natural_mode);
-  MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "auto_time_mode: %d\n", auto_time_mode);
-}
-
-
-static void inbox_dropped_callback(AppMessageResult reason, void *context) {
-  MY_APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
-}
-
-static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
-  MY_APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
-}
-
-static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
-  MY_APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
-}
 
 /*_ --------------- UI SETUP --------------------- */
 
-static void main_window_load(Window *window) {
+ void main_window_load(Window *window) {
   // Load fonts
   s_bld_big_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_45));
   s_bld_medium_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_CONFORTAA_BOLD_40));
@@ -542,7 +448,7 @@ static void main_window_load(Window *window) {
 }
 
 
-static void main_window_unload(Window *window) {
+ void main_window_unload(Window *window) {
   // Unload fonts
   fonts_unload_custom_font(s_bld_big_font);
   fonts_unload_custom_font(s_bld_medium_font);
@@ -562,7 +468,7 @@ static void main_window_unload(Window *window) {
 
 /*_ --------------- MAIN --------------------------*/
 
-static void init() {
+ void init() {
   setlocale(LC_ALL, "fr_FR");
   
   // Create main Window element and assign to pointer
@@ -599,7 +505,7 @@ static void init() {
   update_time();
 }
 
-static void deinit() {
+ void deinit() {
   // Destroy Window
   window_destroy(s_main_window);
   save_persist();

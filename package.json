@@ -6,9 +6,12 @@
     "pebble-clay": "^1.0.3",
     "pebble-owm-weather": "^1.0.0"
   },
+  
   "keywords": [
     "pebble-app",
-    "francais"
+    "francais",
+    "french",
+    "digital"
   ],
   "pebble": {
     "sdkVersion": "3",
@@ -78,13 +81,14 @@
     },
     "projectType": "native",
     "uuid": "6f5e450b-c15f-4a06-8326-6ca83e2fbd11",
-    "messageKeys": {
-      "KEY_AUTO_TIME_MODE": 2,
-      "KEY_MODE_ROUNDED": 1,
-      "KEY_REVERT_COLOR_MODE": 4,
-      "KEY_MODE_NATURAL": 3
-    },
-    "enableMultiJS": false,
+    "messageKeys": [
+      "NaturalMode",
+      "AutoReturnToTime",
+      "MinuteMode",
+      "BackgroudColor",
+      "TwentyFourMode"
+    ],
+    "enableMultiJS": true,
     "displayName": "L'Heure en Français",
     "watchapp": {
       "onlyShownOnCommunication": false,
@@ -97,8 +101,7 @@
       "chalk"
     ],
     "capabilities": [
-      "configurable",
-      "health"
+      "configurable"
     ]
   },
   "name": "heure-en-francais"

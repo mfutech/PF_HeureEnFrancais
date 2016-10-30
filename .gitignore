@@ -1,4 +1,5 @@
 src/tests/*.exe
+.settings
 build/*
 .lock-waf_linux2_build
 *.1
