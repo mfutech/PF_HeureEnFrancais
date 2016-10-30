@@ -5,6 +5,8 @@
  *      Author: Marc
  */
 
+#pragma once
+
 #ifndef SRC_MAIN_H_
 #define SRC_MAIN_H_
 

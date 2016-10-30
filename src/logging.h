@@ -5,6 +5,8 @@
  *      Author: Marc
  */
 
+#pragma once
+
 #ifndef SRC_LOGGING_H_
 #define SRC_LOGGING_H_
 
