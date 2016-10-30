@@ -43,7 +43,7 @@ module.exports = [ {
 			"label" : "Noir",
 			"value" : "1"
 		} ],
-		"defaultValue": 1
+		"defaultValue": "1"
 	}, {
 		"type" : "toggle",
 		"messageKey" : "TwentyFourMode",
