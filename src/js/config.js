@@ -30,7 +30,8 @@ module.exports = [ {
 		}, {
 			"label" : "0-60",
 			"value" : "60"
-		} ]
+		} ],
+		"defaultValue": "30"
 	}, {
 		"type" : "radiogroup",
 		"messageKey" : "BackgroudColor",
@@ -41,7 +42,8 @@ module.exports = [ {
 		}, {
 			"label" : "Noir",
 			"value" : "1"
-		} ]
+		} ],
+		"defaultValue": 1
 	}, {
 		"type" : "toggle",
 		"messageKey" : "TwentyFourMode",

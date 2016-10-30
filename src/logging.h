@@ -12,7 +12,7 @@
 
 #ifdef DEBUG
 #define MY_APP_LOG(level, fmt, args...)                                \
-  app_log(level, __FILE_NAME__, __LINE__, fmt, ## args)
+		app_log(level, __FILE_NAME__, __LINE__, fmt, ## args)
 #else
 #define MY_APP_LOG(level, fmt, args...)
 #endif

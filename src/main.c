@@ -9,10 +9,10 @@
 
 #include <pebble.h>
 #include <ctype.h>
-#include <logging.h>
-#include <french_number.h>
-#include <main.h>
-#include <settings.h>
+#include "logging.h"
+#include "french_number.h"
+#include "main.h"
+#include "settings.h"
 
 #define xxDEBUG
 
@@ -262,7 +262,7 @@ void show_hours(int hour_ref) {
     reg_text_layer_set_text(s_line2_layer, " ");
   }
   else {
-    hour_ref = hour_ref % 12;
+    if (!hours_24h_mode) hour_ref = hour_ref % 12; // if not 24h mode, then modulo 12
     bld_text_layer_set_text(s_line1_layer, french_number[hour_ref + FRENCH_DIGIT_0]);
     if (hour_ref == 1)
       reg_text_layer_set_text(s_line2_layer, "heure");

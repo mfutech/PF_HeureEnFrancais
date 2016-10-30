@@ -96,9 +96,7 @@
       "watchface": true
     },
     "targetPlatforms": [
-      "aplite",
-      "basalt",
-      "chalk"
+      "basalt"
     ],
     "capabilities": [
       "configurable"
