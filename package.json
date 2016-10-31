@@ -1,5 +1,5 @@
 {
-  "version": "1.90.0",
+  "version": "1.100.0",
   "author": "mfu tech",
   "private": true,
   "dependencies": {
@@ -95,8 +95,10 @@
       "hiddenApp": false,
       "watchface": true
     },
-    "targetPlatforms": [
-      "basalt"
+	"targetPlatforms": [
+	  "aplite",
+	  "basalt",
+	  "chalk"		  
     ],
     "capabilities": [
       "configurable"
