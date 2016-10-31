@@ -34,11 +34,10 @@
  void outbox_sent_callback(DictionaryIterator *iterator, void *context);
 
 /* settigngs */
-static bool date_mode = 0;		// internal state, if true showing the date
-static bool rounded_mode;		// if true round minutes do the closest 5
-static bool natural_mode;		// if true does 0-30 minutes
-static bool auto_time_mode;		// if true return to time automatically after seeing the date
-static bool revert_color_mode;	// if true background is black, white otherwise
-static bool hours_24h_mode;		// if true uses 24h mode
+extern bool rounded_mode;		// if true round minutes do the closest 5
+extern bool natural_mode;		// if true does 0-30 minutes
+extern bool auto_time_mode;		// if true return to time automatically after seeing the date
+extern bool revert_color_mode;	// if true background is black, white otherwise
+extern bool hours_24h_mode;		// if true uses 24h mode
 
 #endif /* SRC_SETTINGS_H_ */

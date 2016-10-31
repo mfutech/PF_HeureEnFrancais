@@ -1,10 +1,14 @@
 module.exports = [ {
 	"type" : "heading",
 	"defaultValue" : "Heure en Français"
-}, {
+}, 
+/*
+ * {
 	"type" : "text",
 	"defaultValue" : "Configuration des différentes options."
-}, {
+	},
+*/
+{
 	"type" : "section",
 	"items" : [
 	/*
@@ -12,7 +16,7 @@ module.exports = [ {
 	 */
 	{
 		"type" : "toggle",
-		"messageKey" : "NaturalMode",
+		"messageKey" : "RoundedMode",
 		"label" : "Arondir les minutes",
 		"defaultValue" : false
 	}, {
@@ -20,21 +24,21 @@ module.exports = [ {
 		"messageKey" : "AutoReturnToTime",
 		"label" : "Retour à l'heure automatique",
 		"defaultValue" : true
-	}, {
+	},  {
 		"type" : "radiogroup",
-		"messageKey" : "MinuteMode",
-		"label" : "Mode des minutes",
+		"messageKey" : "NaturalMode",
+		"label" : "Présentation des minutes",
 		"options" : [ {
 			"label" : "0-30",
-			"value" : "30"
+			"value" : "0"
 		}, {
-			"label" : "0-60",
-			"value" : "60"
+			"label" : "0-59",
+			"value" : "1"
 		} ],
-		"defaultValue": "30"
+		"defaultValue": "0"
 	}, {
 		"type" : "radiogroup",
-		"messageKey" : "BackgroudColor",
+		"messageKey" : "RevertColor",
 		"label" : "Couleur de fond",
 		"options" : [ {
 			"label" : "Blanc",

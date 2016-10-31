@@ -14,7 +14,6 @@
 #include "main.h"
 #include "settings.h"
 
-#define xxDEBUG
 
 /*_ --------------- Macros ----------------------- */
 
@@ -38,6 +37,8 @@ static char s_line1[LINE_LEN];
 static char s_line2[LINE_LEN];
 static char s_line3[LINE_LEN];
 static char s_line4[LINE_LEN];
+
+static bool date_mode = 0;			// internal state, if true showing the date
 
 /*_ --------------- utility functions -------------*/
 

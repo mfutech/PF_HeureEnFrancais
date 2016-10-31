@@ -82,10 +82,10 @@
     "projectType": "native",
     "uuid": "6f5e450b-c15f-4a06-8326-6ca83e2fbd11",
     "messageKeys": [
-      "NaturalMode",
+      "RoundedMode",
       "AutoReturnToTime",
-      "MinuteMode",
-      "BackgroudColor",
+      "NaturalMode",
+      "RevertColor",
       "TwentyFourMode"
     ],
     "enableMultiJS": true,
