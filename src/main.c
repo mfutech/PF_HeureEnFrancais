@@ -143,7 +143,7 @@ void reg_text_layer_set_text(TextLayer *t_layer, char *str) {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
 
   //adjust verticaly
-  verticalAlignTextLayer(t_layer);
+  //verticalAlignTextLayer(t_layer);
 
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit reg_text_layer_set_text");
 }
