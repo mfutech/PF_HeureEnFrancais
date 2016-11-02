@@ -10,7 +10,7 @@
 #ifndef SRC_LOGGING_H_
 #define SRC_LOGGING_H_
 
-#define xxDEBUG
+#define DEBUG
 
 #ifdef DEBUG
 #define MY_APP_LOG(level, fmt, args...)                                \

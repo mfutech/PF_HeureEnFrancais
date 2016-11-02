@@ -63,7 +63,7 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
 	while(t != NULL) {
 		// Which key was received?
 		if (t->key ==  MESSAGE_KEY_NaturalMode) {
-			natural_mode = (bool)(t->value->int32 == 1);
+			natural_mode = (bool)(atoi(t->value->cstring) == 1);
 			MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "natural_mode: %d\n", (int)natural_mode);
 		} else
 			if (t->key == MESSAGE_KEY_AutoReturnToTime) {
@@ -71,12 +71,12 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
 				MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "auto_time_mode: %d\n", (int)auto_time_mode);
 			} else
 				if (t->key == MESSAGE_KEY_RoundedMode) {
-					rounded_mode = (bool)(atoi(t->value->cstring) == 30);
-					MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "rounded_mode: %d\n", (int)atoi(t->value->cstring));
+					rounded_mode = (bool)(t->value->int32 == 1);
+					MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "rounded_mode: %d\n", (int)rounded_mode );
 				} else
 					if (t->key == MESSAGE_KEY_RevertColor) {
 						revert_color_mode = (bool)(atoi(t->value->cstring) == 1);
-						MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "revert_color_mode: %d\n", (int)atoi(t->value->cstring));
+						MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "revert_color_mode: %d\n", (int)revert_color_mode);
 					} else
 						if (t->key == MESSAGE_KEY_TwentyFourMode) {
 							hours_24h_mode = (bool)(t->value->int32 == 1);
@@ -91,8 +91,12 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
 	}
 	set_text_color(revert_color_mode);
 	update_time();
-	MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "natural_mode: %d\n", natural_mode);
-	MY_APP_LOG(APP_LOG_LEVEL_DEBUG,  "auto_time_mode: %d\n", auto_time_mode);
+	MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "rounded_mode: %d", rounded_mode);
+	MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "natural_mode: %d", natural_mode);
+	MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "auto_time_mode: %d", auto_time_mode);
+	MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "revert_color_mode: %d",revert_color_mode);
+	MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "hours_24h_mode: %d", hours_24h_mode);
+	MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "Message received - exit");
 }
 
 

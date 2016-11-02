@@ -142,6 +142,7 @@ void reg_text_layer_set_text(TextLayer *t_layer, char *str) {
   sz = text_layer_get_content_size(t_layer);
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "tiny, sz: %d x %d", sz.h, sz.w);
 
+  // TODO fonction a revoir, donne de mauvais résultat (carré noir)
   //adjust verticaly
   //verticalAlignTextLayer(t_layer);
 
@@ -274,10 +275,11 @@ void show_hours(int hour_ref) {
 }
 void show_minutes_30(int min_ref, bool pile, bool need_minus) {
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_minutes_30");
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_minutes_30 - pile:%d min:%d", pile, min_ref);
   switch(min_ref) {
     case 0:
       if (pile) reg_text_layer_set_text(s_line3_layer, "pile");
-      else reg_text_layer_set_text(s_line3_layer, "");
+      else reg_text_layer_set_text(s_line3_layer, " ");
       reg_text_layer_set_text(s_line4_layer, " ");
       break;
     case 15:
@@ -309,14 +311,17 @@ void show_minutes_30(int min_ref, bool pile, bool need_minus) {
 
 void show_minutes_60(int min_ref, bool pile){
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_minutes_60");
-  if (pile) {
-    reg_text_layer_set_text(s_line3_layer, "pile");
-    reg_text_layer_set_text(s_line4_layer, " ");
-    return;
+  MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "enter show_minutes_60 - pile:%d min:%d", pile, min_ref);
+  if (min_ref == 0) {
+	  if (pile)
+		  reg_text_layer_set_text(s_line3_layer, "pile");
+	  else
+		  reg_text_layer_set_text(s_line3_layer, " ");
+	  reg_text_layer_set_text(s_line4_layer, " ");
   }
   else {
-    reg_text_layer_set_text(s_line3_layer, french_number_60[min_ref][0]);
-    reg_text_layer_set_text(s_line4_layer, french_number_60[min_ref][1]);
+	  reg_text_layer_set_text(s_line3_layer, french_number_60[min_ref][0]);
+	  reg_text_layer_set_text(s_line4_layer, french_number_60[min_ref][1]);
   }
   MY_APP_LOG(APP_LOG_LEVEL_DEBUG, "exit show_minutes_60");
 }
