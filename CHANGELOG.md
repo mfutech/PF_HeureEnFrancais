@@ -1,4 +1,7 @@
 
+# v1.104
+   * corrected settings page defaults
+
 # v1.103
    * added launcher icon
    
