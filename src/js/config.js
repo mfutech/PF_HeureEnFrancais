@@ -30,12 +30,12 @@ module.exports = [ {
 		"label" : "Présentation des minutes",
 		"options" : [ {
 			"label" : "0-30",
-			"value" : "0"
+			"value" : "1"
 		}, {
 			"label" : "0-59",
-			"value" : "1"
+			"value" : "0"
 		} ],
-		"defaultValue": "0"
+		"defaultValue": "1"
 	}, {
 		"type" : "radiogroup",
 		"messageKey" : "RevertColor",
