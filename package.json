@@ -76,7 +76,13 @@
           "file": "fonts/Comfortaa-Regular.ttf",
           "name": "FONT_CONFORTAA_40",
           "type": "font"
-        }
+        },
+		{
+		  "menuIcon": true,
+		  "type": "png",
+		  "name": "IMAGE_MENU_ICON",
+		  "file": "small-image.png"
+		}
       ]
     },
     "projectType": "native",

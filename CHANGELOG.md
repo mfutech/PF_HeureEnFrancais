@@ -1,4 +1,7 @@
 
+# v1.103
+   * added launcher icon
+   
 # v1.102
    * corrected setting flags, not all combinaison were taken into account
    
